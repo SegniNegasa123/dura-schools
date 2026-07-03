@@ -1,130 +1,560 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, CreditCard, Database } from "lucide-react";
-import { Terminal } from "./terminal";
+import Link from "next/link";
+import {
+  ArrowRight,
+  CheckCircle,
+  Users,
+  BookOpen,
+  Building2,
+  BarChart3,
+  MessageSquare,
+  ClipboardList,
+  GraduationCap,
+  BedDouble,
+  Bell,
+  Phone,
+  Mail,
+  Shield,
+  ChevronRight,
+} from "lucide-react";
+
+const modules = [
+  {
+    icon: ClipboardList,
+    title: "Admissions",
+    desc: "Digital application forms, online review, and instant accept/reject notifications — no paper.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Student Records (SIS)",
+    desc: "Complete digital student profiles with academic history, photos, and documents.",
+  },
+  {
+    icon: BookOpen,
+    title: "Teacher Portal",
+    desc: "Class management, grade entry, and direct parent messaging in one place.",
+  },
+  {
+    icon: Users,
+    title: "Parent Portal",
+    desc: "Remote monitoring of attendance, grades, and school updates from any device.",
+  },
+  {
+    icon: Shield,
+    title: "Student Dashboard",
+    desc: "Schedule, grades, announcements, and dormitory info for every enrolled student.",
+  },
+  {
+    icon: BedDouble,
+    title: "Boarding Management",
+    desc: "Room assignments, dormitory checks, and house master tools for boarding schools.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Attendance & Grades",
+    desc: "Digital registers, instant parent alerts, and automated grade calculations by term.",
+  },
+  {
+    icon: Bell,
+    title: "Communication",
+    desc: "School-wide announcements, direct messages, and email notifications — all in one system.",
+  },
+  {
+    icon: BarChart3,
+    title: "Admin Analytics",
+    desc: "Real-time dashboards for school directors to monitor enrollment, performance, and trends.",
+  },
+];
+
+const portals = [
+  {
+    label: "Dura Admin",
+    sub: "Full platform control",
+    bg: "bg-purple-900",
+    border: "border-purple-700",
+  },
+  {
+    label: "School Admin",
+    sub: "Manage your school",
+    bg: "bg-[#1B3A6B]",
+    border: "border-blue-700",
+  },
+  {
+    label: "Teachers",
+    sub: "Classes & grades",
+    bg: "bg-teal-800",
+    border: "border-teal-600",
+  },
+  {
+    label: "Parents",
+    sub: "Monitor remotely",
+    bg: "bg-emerald-800",
+    border: "border-emerald-600",
+  },
+  {
+    label: "Students",
+    sub: "Schedules & results",
+    bg: "bg-amber-800",
+    border: "border-amber-600",
+  },
+];
+
+const plans = [
+  {
+    name: "Starter",
+    tag: "Secondary schools",
+    price: "From 1,500 ETB",
+    period: "/month",
+    highlight: false,
+    features: [
+      "Admissions module",
+      "Student records (SIS)",
+      "Attendance & grades",
+      "School admin dashboard",
+      "Up to 300 students",
+    ],
+  },
+  {
+    name: "Professional",
+    tag: "Boarding schools",
+    price: "From 3,500 ETB",
+    period: "/month",
+    highlight: true,
+    features: [
+      "Everything in Starter",
+      "Parent portal",
+      "Teacher portal",
+      "Communication system",
+      "Boarding management",
+      "Up to 800 students",
+    ],
+  },
+  {
+    name: "Enterprise",
+    tag: "Large institutions",
+    price: "Custom",
+    period: "",
+    highlight: false,
+    features: [
+      "Everything in Professional",
+      "Student dashboard",
+      "Admin analytics",
+      "Custom subdomain",
+      "Dedicated support",
+      "Unlimited students",
+    ],
+  },
+];
 
 export default function HomePage() {
   return (
-    <main>
-      <section className="py-20">
+    <div className="min-h-screen bg-white font-sans">
+      {/* ── Navigation ── */}
+      <nav className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+          <Link href="/" className="flex items-baseline gap-1 select-none">
+            <span className="text-xl font-bold tracking-tight text-[#1B3A6B]">
+              Dura
+            </span>
+            <span className="text-xl font-light text-gray-400">Schools</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
+            <Link
+              href="#features"
+              className="hover:text-[#1B3A6B] transition-colors"
+            >
+              Features
+            </Link>
+            <Link
+              href="#how-it-works"
+              className="hover:text-[#1B3A6B] transition-colors"
+            >
+              How It Works
+            </Link>
+            <Link
+              href="#pricing"
+              className="hover:text-[#1B3A6B] transition-colors"
+            >
+              Pricing
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/sign-in"
+              className="hidden sm:inline-flex text-sm text-gray-600 hover:text-[#1B3A6B] px-3 py-1.5 transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/sign-in"
+              className="inline-flex items-center gap-1.5 text-sm font-medium bg-[#1B3A6B] hover:bg-[#152d54] text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Request Demo <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── Hero ── */}
+      <section className="pt-16 min-h-screen bg-[#1B3A6B] flex items-center relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-blue-500/10" />
+          <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] rounded-full bg-blue-400/5" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.02]" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative w-full">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/25 rounded-full px-4 py-1.5 mb-8">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
+              <span className="text-[#C9A84C] text-sm font-medium">
+                Built in Ethiopia, for Ethiopia
+              </span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-6">
+              Modern School
+              <br />
+              <span className="text-[#C9A84C]">Management.</span>
+              <br />
+              Built for Ethiopia.
+            </h1>
+            <p className="text-lg sm:text-xl text-blue-200/80 mb-10 max-w-xl leading-relaxed">
+              Dura Schools digitizes admissions, student records, parent
+              communication, and dormitory management — giving Ethiopia's
+              boarding schools the platform they deserve.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 mb-16">
+              <Link
+                href="/sign-in"
+                className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] hover:bg-[#b8933d] text-white font-semibold px-7 py-4 rounded-xl text-base transition-all hover:scale-[1.02]"
+              >
+                Request a Demo <ArrowRight className="h-5 w-5" />
+              </Link>
+              <Link
+                href="#features"
+                className="inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-white/12 border border-white/15 text-white font-medium px-7 py-4 rounded-xl text-base transition-all"
+              >
+                See All Features
+              </Link>
+            </div>
+            <div className="flex items-center gap-10">
+              {[
+                ["9", "Modules"],
+                ["5", "Portals"],
+                ["1 Day", "To Launch"],
+              ].map(([n, l]) => (
+                <div key={l}>
+                  <div className="text-3xl font-bold text-white">{n}</div>
+                  <div className="text-sm text-blue-300">{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Problem ── */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-red-500 mb-4">
+              The Problem
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] leading-tight mb-6">
+              Ethiopia's elite schools are running on paper
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              While every Ethiopian university has a digital portal, almost
+              every secondary and boarding school still relies on paper
+              registers, physical files, and phone calls. This creates real,
+              daily problems.
+            </p>
+            <Link
+              href="#features"
+              className="inline-flex items-center gap-2 text-[#1B3A6B] font-semibold hover:gap-3 transition-all"
+            >
+              See how Dura solves this <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {[
+              "Students can't find detailed information about boarding schools before applying",
+              "Parents can't monitor their children in boarding schools remotely",
+              "Admissions are paper-based — slow, disorganized, and impossible to track",
+              "Teachers lose paper registers and grade books",
+              "School directors have no real-time visibility into their school's performance",
+              "Elementary students have no way to discover boarding school opportunities",
+            ].map((p, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4"
+              >
+                <div className="w-5 h-5 rounded-full bg-red-50 border border-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">{p}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Features / Modules ── */}
+      <section id="features" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <a
-                  href="https://vercel.com/templates/next.js/next-js-dura-schools"
-                  target="_blank"
+          <div className="text-center mb-14">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#1B3A6B] mb-4">
+              9 Powerful Modules
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
+              Everything your school needs, in one platform
+            </h2>
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
+              Enable only what your school needs. Add more modules as you grow.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {modules.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#1B3A6B]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-default"
+              >
+                <div className="w-11 h-11 rounded-xl bg-[#1B3A6B]/8 group-hover:bg-[#1B3A6B] flex items-center justify-center mb-4 transition-colors duration-300">
+                  <Icon className="h-5 w-5 text-[#1B3A6B] group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="font-semibold text-[#1B3A6B] mb-2">{title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How It Works ── */}
+      <section id="how-it-works" className="py-24 bg-[#1B3A6B]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#C9A84C] mb-4">
+              Simple Process
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Your school goes digital in one day
+            </h2>
+            <p className="text-blue-300 text-lg max-w-xl mx-auto">
+              No complex setup. No technical team required.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                n: "01",
+                title: "We onboard your school",
+                desc: "We set up your school on Dura Schools in one session — users, modules, branding. You don't touch a single line of code.",
+              },
+              {
+                n: "02",
+                title: "Everyone gets instant access",
+                desc: "Staff, teachers, parents, and students receive login credentials and can access their own portal immediately.",
+              },
+              {
+                n: "03",
+                title: "Your school runs better",
+                desc: "Admissions go digital. Parents stay informed. Directors see real-time data. Teachers use digital registers.",
+              },
+            ].map(({ n, title, desc }) => (
+              <div key={n} className="relative">
+                <div className="text-5xl font-bold text-[#C9A84C]/30 mb-4 select-none">
+                  {n}
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">
+                  {title}
+                </h3>
+                <p className="text-blue-200/80 leading-relaxed text-sm">
+                  {desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5 Portals ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#1B3A6B] mb-4">
+              5 Dedicated Portals
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
+              One platform. Five experiences.
+            </h2>
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
+              Every user type gets a focused, role-specific view. No clutter, no
+              confusion.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {portals.map(({ label, sub, bg, border }, i) => (
+              <div
+                key={label}
+                className={`${bg} border ${border} rounded-2xl p-5 text-center`}
+              >
+                <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white text-xs font-bold">{i + 1}</span>
+                </div>
+                <div className="text-white font-semibold text-sm mb-1">
+                  {label}
+                </div>
+                <div className="text-white/60 text-xs">{sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pricing ── */}
+      <section id="pricing" className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#C9A84C] mb-4">
+              Pricing
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
+              Affordable for every school
+            </h2>
+            <p className="text-gray-500 text-lg">
+              Monthly subscription. No setup fees. Cancel anytime.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {plans.map(({ name, tag, price, period, highlight, features }) => (
+              <div
+                key={name}
+                className={`rounded-2xl p-8 flex flex-col ${highlight ? "bg-[#1B3A6B] shadow-2xl scale-[1.03]" : "bg-white border border-gray-100 shadow-sm"}`}
+              >
+                {highlight && (
+                  <div className="inline-flex items-center bg-[#C9A84C] text-white text-xs font-semibold px-3 py-1 rounded-full mb-5 self-start">
+                    Most Popular
+                  </div>
+                )}
+                <div
+                  className={`text-xs font-semibold uppercase tracking-widest mb-2 ${highlight ? "text-blue-300" : "text-gray-400"}`}
                 >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg rounded-full"
+                  {tag}
+                </div>
+                <div
+                  className={`text-2xl font-bold mb-1 ${highlight ? "text-white" : "text-[#1B3A6B]"}`}
+                >
+                  {name}
+                </div>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span
+                    className={`text-xl font-semibold ${highlight ? "text-[#C9A84C]" : "text-gray-700"}`}
                   >
-                    Deploy your own
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </a>
-              </div>
-            </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-white w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            <div>
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <CreditCard className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
-              </p>
-            </div>
-            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
-              <a href="https://github.com/nextjs/dura-schools" target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg rounded-full"
+                    {price}
+                  </span>
+                  {period && (
+                    <span
+                      className={`text-sm ${highlight ? "text-blue-300" : "text-gray-400"}`}
+                    >
+                      {period}
+                    </span>
+                  )}
+                </div>
+                <ul className="space-y-2.5 mb-8 flex-1">
+                  {features.map((f) => (
+                    <li key={f} className="flex items-center gap-2.5">
+                      <CheckCircle
+                        className={`h-4 w-4 flex-shrink-0 ${highlight ? "text-[#C9A84C]" : "text-green-500"}`}
+                      />
+                      <span
+                        className={`text-sm ${highlight ? "text-blue-100" : "text-gray-600"}`}
+                      >
+                        {f}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/sign-in"
+                  className={`w-full inline-flex items-center justify-center gap-2 font-semibold py-3 rounded-xl text-sm transition-all hover:gap-3 ${highlight ? "bg-[#C9A84C] hover:bg-[#b8933d] text-white" : "bg-[#1B3A6B] hover:bg-[#152d54] text-white"}`}
                 >
-                  View the code
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </Button>
-              </a>
-            </div>
+                  Get Started <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </main>
+
+      {/* ── Final CTA ── */}
+      <section className="py-24 bg-[#1B3A6B]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
+            Ready to bring your school into the digital age?
+          </h2>
+          <p className="text-blue-200/80 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+            Join the schools already using Dura Schools to modernize their
+            operations and improve student outcomes.
+          </p>
+          <Link
+            href="/sign-in"
+            className="inline-flex items-center gap-2 bg-[#C9A84C] hover:bg-[#b8933d] text-white font-semibold px-8 py-4 rounded-xl text-base transition-all hover:gap-3"
+          >
+            Request a Free Demo <ArrowRight className="h-5 w-5" />
+          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
+            <a
+              href="mailto:info@duraschools.com"
+              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors text-sm"
+            >
+              <Mail className="h-4 w-4" /> info@duraschools.com
+            </a>
+            <a
+              href="tel:+251984881662"
+              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors text-sm"
+            >
+              <Phone className="h-4 w-4" /> +251 984 881 662
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="bg-[#0f2347] py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-lg font-bold text-white">Dura</span>
+              <span className="text-lg font-light text-gray-500">Schools</span>
+            </div>
+            <p className="text-xs text-gray-600">
+              A product of Dura Tech · Made in Ethiopia
+            </p>
+          </div>
+          <div className="flex items-center gap-8">
+            <Link
+              href="#features"
+              className="text-sm text-gray-500 hover:text-white transition-colors"
+            >
+              Features
+            </Link>
+            <Link
+              href="#pricing"
+              className="text-sm text-gray-500 hover:text-white transition-colors"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/sign-in"
+              className="text-sm text-gray-500 hover:text-white transition-colors"
+            >
+              Sign In
+            </Link>
+          </div>
+          <p className="text-xs text-gray-600">
+            © 2026 Dura Tech. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
   );
 }
