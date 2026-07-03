@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/drizzle";
-import { schools, applications } from "@/lib/db/schema";
+import { schools } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,6 +12,7 @@ const SERIF = 'Georgia, "Times New Roman", "Book Antiqua", serif';
 const SANS =
   'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
 
+// Next.js 15 requires params to be handled as a Promise asynchronously
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -19,7 +20,6 @@ interface PageProps {
 export default async function ApplyPage({ params }: PageProps) {
   const { slug } = await params;
 
-  // Verify that the target school exists in the registry matrix
   const targetSchool = await db
     .select()
     .from(schools)
@@ -34,7 +34,6 @@ export default async function ApplyPage({ params }: PageProps) {
 
   return (
     <div className="bg-[#FBF9F6] min-h-screen text-[#1A1A1A] antialiased">
-      {/* ── Institutional Header Bar ───────────────────────────────── */}
       <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-[#EBE6DF] backdrop-blur-md bg-white/90">
         <div className="max-w-3xl mx-auto px-6 flex items-center justify-between h-[60px]">
           <Link
@@ -61,7 +60,6 @@ export default async function ApplyPage({ params }: PageProps) {
         </div>
       </header>
 
-      {/* ── Main Form Frame ────────────────────────────────────────── */}
       <main className="max-w-3xl mx-auto px-6 pt-[130px] pb-32">
         <div className="border-b border-[#EBE6DF] pb-8 mb-10">
           <div
@@ -87,7 +85,6 @@ export default async function ApplyPage({ params }: PageProps) {
           </p>
         </div>
 
-        {/* Client-Side Wizard handling state processing */}
         <ApplicationWizardForm schoolId={school.id} schoolSlug={school.slug} />
       </main>
     </div>

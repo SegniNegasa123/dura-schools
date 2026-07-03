@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   User,
   ShieldAlert,
-  FileHeading,
+  FileText,
   CheckCircle,
   ArrowRight,
   ArrowLeft,
