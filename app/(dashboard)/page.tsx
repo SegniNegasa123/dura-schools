@@ -5,369 +5,402 @@ import {
   Users,
   BookOpen,
   Building2,
-  BarChart3,
-  MessageSquare,
+  BarChart2,
+  Bell,
   ClipboardList,
   GraduationCap,
   BedDouble,
-  Bell,
+  CheckSquare,
   Phone,
   Mail,
   Shield,
-  ChevronRight,
+  ArrowDown,
 } from "lucide-react";
 
 const modules = [
   {
     icon: ClipboardList,
     title: "Admissions",
-    desc: "Digital application forms, online review, and instant accept/reject notifications. no paper.",
+    body: "The application form lives on your school's public page. Parents fill it out from their phone. You review from your dashboard and notify applicants in one click. No paper, no lost files.",
   },
   {
     icon: GraduationCap,
-    title: "Student Records (SIS)",
-    desc: "Complete digital student profiles with academic history, photos, and documents.",
+    title: "Student Records",
+    body: "Every enrolled student has a complete digital file — grades, attendance history, guardian contacts, dormitory assignment, and uploaded documents.",
   },
   {
     icon: BookOpen,
     title: "Teacher Portal",
-    desc: "Class management, grade entry, and direct parent messaging in one place.",
+    body: "Attendance in three minutes at the start of class. Grades entered once after an exam. Parents notified the same day. The paper register stays in the drawer.",
   },
   {
     icon: Users,
     title: "Parent Portal",
-    desc: "Remote monitoring of attendance, grades, and school updates from any device.",
+    body: "A parent in Addis can open their phone and see their child's attendance, most recent exam score, and dormitory room — without calling anyone.",
   },
   {
     icon: Shield,
     title: "Student Dashboard",
-    desc: "Schedule, grades, announcements, and dormitory info for every enrolled student.",
+    body: "Students see their class schedule, exam results, school notices, and room assignment in one place. Nothing more, nothing less.",
   },
   {
     icon: BedDouble,
     title: "Boarding Management",
-    desc: "Room assignments, dormitory checks, and house master tools for boarding schools.",
+    body: "Room assignments, nightly dormitory checks, and house master reports — organized, timestamped, and on record.",
   },
   {
-    icon: CheckCircle,
+    icon: CheckSquare,
     title: "Attendance & Grades",
-    desc: "Digital registers, instant parent alerts, and automated grade calculations by term.",
+    body: "Digital attendance records build automatically each day. When a student is absent, their parent receives an alert before the end of the school day.",
   },
   {
     icon: Bell,
     title: "Communication",
-    desc: "School-wide announcements, direct messages, and email notifications; all in one system.",
+    body: "School-wide announcements reach every parent in seconds. Teachers and parents exchange messages through the platform — not through personal phones.",
   },
   {
-    icon: BarChart3,
+    icon: BarChart2,
     title: "Admin Analytics",
-    desc: "Real-time dashboards for school directors to monitor enrollment, performance, and trends.",
+    body: "Enrollment numbers, attendance rates, and academic performance are visible to the school director in real time — not compiled manually at end of term.",
   },
 ];
 
-const portals = [
+const pricing = [
   {
-    label: "Dura Admin",
-    sub: "Full platform control",
-    bg: "bg-purple-900",
-    border: "border-purple-700",
-  },
-  {
-    label: "School Admin",
-    sub: "Manage your school",
-    bg: "bg-[#1B3A6B]",
-    border: "border-blue-700",
-  },
-  {
-    label: "Teachers",
-    sub: "Classes & grades",
-    bg: "bg-teal-800",
-    border: "border-teal-600",
-  },
-  {
-    label: "Parents",
-    sub: "Monitor remotely",
-    bg: "bg-emerald-800",
-    border: "border-emerald-600",
-  },
-  {
-    label: "Students",
-    sub: "Schedules & results",
-    bg: "bg-amber-800",
-    border: "border-amber-600",
-  },
-];
-
-const plans = [
-  {
-    name: "Starter",
-    tag: "Secondary schools",
-    price: "From 1,500 ETB",
-    period: "/month",
-    highlight: false,
+    tier: "Starter",
+    for: "Secondary schools",
+    price: "1,500",
+    unit: "ETB / month",
+    cap: "Up to 300 students",
+    featured: false,
     features: [
       "Admissions module",
       "Student records (SIS)",
       "Attendance & grades",
       "School admin dashboard",
-      "Up to 300 students",
+      "Email support",
     ],
   },
   {
-    name: "Professional",
-    tag: "Boarding schools",
-    price: "From 3,500 ETB",
-    period: "/month",
-    highlight: true,
+    tier: "Professional",
+    for: "Boarding schools",
+    price: "3,500",
+    unit: "ETB / month",
+    cap: "Up to 800 students",
+    featured: true,
     features: [
       "Everything in Starter",
       "Parent portal",
       "Teacher portal",
       "Communication system",
       "Boarding management",
-      "Up to 800 students",
+      "Priority support",
     ],
   },
   {
-    name: "Enterprise",
-    tag: "Large institutions",
+    tier: "Enterprise",
+    for: "Large institutions",
     price: "Custom",
-    period: "",
-    highlight: false,
+    unit: "",
+    cap: "Unlimited students",
+    featured: false,
     features: [
       "Everything in Professional",
       "Student dashboard",
       "Admin analytics",
       "Custom subdomain",
-      "Dedicated support",
-      "Unlimited students",
+      "Dedicated onboarding",
+      "SLA guarantee",
     ],
   },
 ];
 
-export default function HomePage() {
+export default function Page() {
   return (
-    <div className="min-h-screen bg-white font-sans">
-      {/* ── Navigation ── */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <Link href="/" className="flex items-baseline gap-1 select-none">
-            <span className="text-xl font-bold tracking-tight text-[#1B3A6B]">
+    <div
+      className="bg-white"
+      style={{
+        fontFamily:
+          'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif',
+      }}
+    >
+      {/* ── Navigation ─────────────────────────────────── */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-[58px]">
+          <Link href="/" className="flex items-center gap-0.5 select-none">
+            <span className="text-[#0B1F3A] font-bold text-[17px] tracking-[-0.01em]">
               Dura
             </span>
-            <span className="text-xl font-light text-gray-400">Schools</span>
+            <span className="text-gray-400 font-light text-[17px]">
+              Schools
+            </span>
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-            <Link
-              href="#features"
-              className="hover:text-[#1B3A6B] transition-colors"
-            >
-              Features
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="hover:text-[#1B3A6B] transition-colors"
-            >
-              How It Works
-            </Link>
-            <Link
-              href="#pricing"
-              className="hover:text-[#1B3A6B] transition-colors"
-            >
-              Pricing
-            </Link>
-          </div>
+          <nav className="hidden md:flex items-center gap-8">
+            {[
+              { label: "Features", href: "#features" },
+              { label: "How It Works", href: "#how-it-works" },
+              { label: "Pricing", href: "#pricing" },
+            ].map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                className="text-[13px] text-gray-500 hover:text-[#0B1F3A] transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
           <div className="flex items-center gap-2">
             <Link
               href="/sign-in"
-              className="hidden sm:inline-flex text-sm text-gray-600 hover:text-[#1B3A6B] px-3 py-1.5 transition-colors"
+              className="text-[13px] text-gray-500 hover:text-[#0B1F3A] px-3 py-1.5 transition-colors"
             >
-              Sign In
+              Sign in
             </Link>
             <Link
               href="/sign-in"
-              className="inline-flex items-center gap-1.5 text-sm font-medium bg-[#1B3A6B] hover:bg-[#152d54] text-white px-4 py-2 rounded-lg transition-colors"
+              className="text-[13px] font-semibold bg-[#0B1F3A] text-white px-4 py-2 hover:bg-[#162f54] transition-colors"
+              style={{ borderRadius: "3px" }}
             >
-              Request Demo <ArrowRight className="h-3.5 w-3.5" />
+              Request a demo
             </Link>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* ── Hero ── */}
-      <section className="pt-16 min-h-screen bg-[#1B3A6B] flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-blue-500/10" />
-          <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] rounded-full bg-blue-400/5" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-white/[0.02]" />
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative w-full">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-[#C9A84C]/15 border border-[#C9A84C]/25 rounded-full px-4 py-1.5 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
-              <span className="text-[#C9A84C] text-sm font-medium">
-                Built in Ethiopia, for Ethiopia
-              </span>
-            </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-              Modern School
-              <br />
-              <span className="text-[#C9A84C]">Management.</span>
-              <br />
-              Built for Ethiopia.
-            </h1>
-            <p className="text-lg sm:text-xl text-blue-200/80 mb-10 max-w-xl leading-relaxed">
-              Dura Schools digitizes admissions, student records, parent
-              communication, and dormitory management — giving Ethiopia's
-              boarding schools the platform they deserve.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 mb-16">
-              <Link
-                href="/sign-in"
-                className="inline-flex items-center justify-center gap-2 bg-[#C9A84C] hover:bg-[#b8933d] text-white font-semibold px-7 py-4 rounded-xl text-base transition-all hover:scale-[1.02]"
-              >
-                Request a Demo <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#features"
-                className="inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-white/12 border border-white/15 text-white font-medium px-7 py-4 rounded-xl text-base transition-all"
-              >
-                See All Features
-              </Link>
-            </div>
-            <div className="flex items-center gap-10">
-              {[
-                ["9", "Modules"],
-                ["5", "Portals"],
-                ["1 Day", "To Launch"],
-              ].map(([n, l]) => (
-                <div key={l}>
-                  <div className="text-3xl font-bold text-white">{n}</div>
-                  <div className="text-sm text-blue-300">{l}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Problem ── */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-red-500 mb-4">
-              The Problem
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] leading-tight mb-6">
-              Ethiopia's elite schools are running on paper
-            </h2>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8">
-              While every Ethiopian university has a digital portal, almost
-              every secondary and boarding school still relies on paper
-              registers, physical files, and phone calls. This creates real,
-              daily problems.
-            </p>
+      {/* ── Hero ───────────────────────────────────────── */}
+      <section className="bg-[#0B1F3A] pt-[58px]">
+        <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
+          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-8">
+            For boarding and secondary schools in Ethiopia
+          </p>
+          <h1
+            className="text-white font-bold leading-[1.05] tracking-[-0.02em] mb-8"
+            style={{ fontSize: "clamp(38px, 6vw, 68px)", maxWidth: "680px" }}
+          >
+            The school platform Ethiopia has been waiting for.
+          </h1>
+          <p
+            className="text-[#8FA3BC] text-lg leading-relaxed mb-10"
+            style={{ maxWidth: "500px" }}
+          >
+            Every Ethiopian university has a student portal. Most boarding
+            schools still run on paper registers and phone calls. Dura Schools
+            is the management platform built to change this.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/sign-in"
+              className="inline-flex items-center justify-center gap-2 bg-[#B08D3C] hover:bg-[#9a7a32] text-white font-semibold text-[13px] px-6 py-3 transition-colors"
+              style={{ borderRadius: "3px" }}
+            >
+              Request a demo <ArrowRight className="h-4 w-4" />
+            </Link>
             <Link
               href="#features"
-              className="inline-flex items-center gap-2 text-[#1B3A6B] font-semibold hover:gap-3 transition-all"
+              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/70 hover:border-white/30 hover:text-white/90 text-[13px] px-6 py-3 transition-colors"
+              style={{ borderRadius: "3px" }}
             >
-              See how Dura solves this <ChevronRight className="h-4 w-4" />
+              See the platform <ArrowDown className="h-4 w-4" />
             </Link>
           </div>
-          <div className="space-y-3">
-            {[
-              "Students can't find detailed information about boarding schools before applying",
-              "Parents can't monitor their children in boarding schools remotely",
-              "Admissions are paper-based — slow, disorganized, and impossible to track",
-              "Teachers lose paper registers and grade books",
-              "School directors have no real-time visibility into their school's performance",
-              "Elementary students have no way to discover boarding school opportunities",
-            ].map((p, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 shadow-sm p-4"
-              >
-                <div className="w-5 h-5 rounded-full bg-red-50 border border-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed">{p}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── Features / Modules ── */}
-      <section id="features" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#1B3A6B] mb-4">
-              9 Powerful Modules
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
-              Everything your school needs, in one platform
-            </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              Enable only what your school needs. Add more modules as you grow.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {modules.map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="group relative p-6 rounded-2xl border border-gray-100 bg-white hover:border-[#1B3A6B]/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-default"
-              >
-                <div className="w-11 h-11 rounded-xl bg-[#1B3A6B]/8 group-hover:bg-[#1B3A6B] flex items-center justify-center mb-4 transition-colors duration-300">
-                  <Icon className="h-5 w-5 text-[#1B3A6B] group-hover:text-white transition-colors duration-300" />
-                </div>
-                <h3 className="font-semibold text-[#1B3A6B] mb-2">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── How It Works ── */}
-      <section id="how-it-works" className="py-24 bg-[#1B3A6B]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#C9A84C] mb-4">
-              Simple Process
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Your school goes digital in one day
-            </h2>
-            <p className="text-blue-300 text-lg max-w-xl mx-auto">
-              No complex setup. No technical team required.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="mt-20 pt-10 border-t border-white/8 flex flex-wrap gap-10">
             {[
-              {
-                n: "01",
-                title: "We onboard your school",
-                desc: "We set up your school on Dura Schools in one session — users, modules, branding. You don't touch a single line of code.",
-              },
-              {
-                n: "02",
-                title: "Everyone gets instant access",
-                desc: "Staff, teachers, parents, and students receive login credentials and can access their own portal immediately.",
-              },
-              {
-                n: "03",
-                title: "Your school runs better",
-                desc: "Admissions go digital. Parents stay informed. Directors see real-time data. Teachers use digital registers.",
-              },
-            ].map(({ n, title, desc }) => (
-              <div key={n} className="relative">
-                <div className="text-5xl font-bold text-[#C9A84C]/30 mb-4 select-none">
+              ["9", "platform modules"],
+              ["5", "user portals"],
+              ["1 day", "to go live"],
+              ["0", "paper required"],
+            ].map(([n, l]) => (
+              <div key={l}>
+                <div className="text-white font-bold text-2xl tracking-tight">
                   {n}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <div className="text-[#4D6680] text-xs mt-0.5">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── The Gap We Fill ───────────────────────────── */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-20 items-start">
+            <div>
+              <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-6">
+                The problem we solve
+              </p>
+              <h2
+                className="text-[#0B1F3A] font-bold leading-tight tracking-tight"
+                style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
+              >
+                Universities in Ethiopia have digital portals. Boarding schools
+                do not.
+              </h2>
+            </div>
+            <div className="space-y-5 pt-1 md:pt-10">
+              <p className="text-gray-600 text-[15px] leading-relaxed">
+                A parent in Addis Ababa with a child at a boarding school in
+                Jimma has no way to check their child's attendance. They call
+                the school. Sometimes the school picks up.
+              </p>
+              <p className="text-gray-600 text-[15px] leading-relaxed">
+                Students finishing elementary school cannot research and compare
+                boarding schools before applying. Applications arrive on paper,
+                by hand, and sometimes get lost.
+              </p>
+              <p className="text-gray-600 text-[15px] leading-relaxed">
+                School directors have no view of their own data unless they go
+                through each physical file themselves. There is no dashboard.
+                There is no system.
+              </p>
+              <p className="text-[#0B1F3A] text-[15px] font-semibold pt-2">
+                Dura Schools fixes all of this.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Modules ───────────────────────────────────── */}
+      <section id="features" className="bg-[#F5F6F8] py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="mb-14">
+            <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
+              Platform modules
+            </p>
+            <h2
+              className="text-[#0B1F3A] font-bold leading-tight tracking-tight max-w-md"
+              style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
+            >
+              Nine modules. One platform. Every school.
+            </h2>
+          </div>
+
+          {/* Grid with 1px hairline separators — the signature element */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200">
+            {modules.map(({ icon: Icon, title, body }) => (
+              <div
+                key={title}
+                className="bg-[#F5F6F8] hover:bg-white transition-colors p-8 group cursor-default"
+              >
+                <Icon
+                  className="h-[18px] w-[18px] text-[#0B1F3A] mb-5 opacity-60"
+                  strokeWidth={1.5}
+                />
+                <h3 className="text-[#0B1F3A] font-semibold text-[14px] mb-3">
                   {title}
                 </h3>
-                <p className="text-blue-200/80 leading-relaxed text-sm">
+                <p className="text-gray-500 text-[13px] leading-relaxed">
+                  {body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How It Works ──────────────────────────────── */}
+      <section id="how-it-works" className="bg-[#0B1F3A] py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-6">
+            Getting started
+          </p>
+          <h2
+            className="text-white font-bold leading-tight tracking-tight mb-20"
+            style={{ fontSize: "clamp(26px, 3.5vw, 40px)", maxWidth: "380px" }}
+          >
+            Your school is live in one day.
+          </h2>
+          <div className="grid md:grid-cols-3 gap-16">
+            {[
+              {
+                ord: "One",
+                title: "We set everything up",
+                body: "We onboard your school, configure your modules, and create accounts for your staff, teachers, parents, and students. You don't touch a single setting.",
+              },
+              {
+                ord: "Two",
+                title: "Everyone gets their portal",
+                body: "Each user type — director, teacher, parent, student — logs into their own view with exactly the tools they need and nothing they do not.",
+              },
+              {
+                ord: "Three",
+                title: "Your school runs better",
+                body: "Admissions are online. Parents are informed. Directors see live data. Teachers use three minutes on attendance instead of twenty.",
+              },
+            ].map(({ ord, title, body }) => (
+              <div key={ord}>
+                <p className="text-[#B08D3C] text-[12px] font-semibold mb-4">
+                  {ord}
+                </p>
+                <div className="w-8 h-px bg-[#B08D3C] mb-7" />
+                <h3 className="text-white font-semibold text-[15px] mb-3">
+                  {title}
+                </h3>
+                <p className="text-[#8FA3BC] text-[13px] leading-relaxed">
+                  {body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Five Portals ──────────────────────────────── */}
+      <section className="bg-white py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
+            Who it's for
+          </p>
+          <h2
+            className="text-[#0B1F3A] font-bold leading-tight tracking-tight mb-4"
+            style={{ fontSize: "clamp(26px, 3.5vw, 40px)", maxWidth: "480px" }}
+          >
+            Five portals. Each one built for the person using it.
+          </h2>
+          <p className="text-gray-500 text-[15px] mb-14 max-w-lg">
+            Everyone at your school uses the same platform — but sees only what
+            is relevant to them.
+          </p>
+          <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {[
+              {
+                role: "Dura Admin",
+                desc: "Platform-wide oversight across all schools on the system.",
+                bg: "#F2F0F7",
+              },
+              {
+                role: "School Admin",
+                desc: "The director or registrar manages the full school.",
+                bg: "#EEF3F9",
+              },
+              {
+                role: "Teachers",
+                desc: "Class attendance, grade entry, and messages to parents.",
+                bg: "#EEF6F2",
+              },
+              {
+                role: "Parents",
+                desc: "Their child's attendance, grades, and dormitory status.",
+                bg: "#FBF5E8",
+              },
+              {
+                role: "Students",
+                desc: "Schedule, exam results, and school announcements.",
+                bg: "#F5EEF8",
+              },
+            ].map(({ role, desc, bg }) => (
+              <div
+                key={role}
+                className="p-5"
+                style={{ backgroundColor: bg, borderRadius: "3px" }}
+              >
+                <p className="text-[#0B1F3A] font-semibold text-[13px] mb-2">
+                  {role}
+                </p>
+                <p className="text-gray-500 text-[12px] leading-relaxed">
                   {desc}
                 </p>
               </div>
@@ -376,182 +409,194 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 5 Portals ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#1B3A6B] mb-4">
-              5 Dedicated Portals
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
-              One platform. Five experiences.
+      {/* ── Pricing ───────────────────────────────────── */}
+      <section id="pricing" className="bg-[#F5F6F8] py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
+            Pricing
+          </p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+            <h2
+              className="text-[#0B1F3A] font-bold leading-tight tracking-tight"
+              style={{
+                fontSize: "clamp(26px, 3.5vw, 40px)",
+                maxWidth: "320px",
+              }}
+            >
+              Simple, honest pricing.
             </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              Every user type gets a focused, role-specific view. No clutter, no
-              confusion.
+            <p className="text-gray-500 text-[13px] max-w-xs">
+              Monthly subscription. No setup fee. No surprise charges. Cancel
+              with 30 days' notice.
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {portals.map(({ label, sub, bg, border }, i) => (
-              <div
-                key={label}
-                className={`${bg} border ${border} rounded-2xl p-5 text-center`}
-              >
-                <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white text-xs font-bold">{i + 1}</span>
-                </div>
-                <div className="text-white font-semibold text-sm mb-1">
-                  {label}
-                </div>
-                <div className="text-white/60 text-xs">{sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pricing ── */}
-      <section id="pricing" className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-[#C9A84C] mb-4">
-              Pricing
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1B3A6B] mb-4">
-              Affordable for every school
-            </h2>
-            <p className="text-gray-500 text-lg">
-              Monthly subscription. No setup fees. Cancel anytime.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {plans.map(({ name, tag, price, period, highlight, features }) => (
-              <div
-                key={name}
-                className={`rounded-2xl p-8 flex flex-col ${highlight ? "bg-[#1B3A6B] shadow-2xl scale-[1.03]" : "bg-white border border-gray-100 shadow-sm"}`}
-              >
-                {highlight && (
-                  <div className="inline-flex items-center bg-[#C9A84C] text-white text-xs font-semibold px-3 py-1 rounded-full mb-5 self-start">
-                    Most Popular
-                  </div>
-                )}
+          <div className="grid md:grid-cols-3 gap-4">
+            {pricing.map(
+              ({
+                tier,
+                for: forLabel,
+                price,
+                unit,
+                cap,
+                featured,
+                features,
+              }) => (
                 <div
-                  className={`text-xs font-semibold uppercase tracking-widest mb-2 ${highlight ? "text-blue-300" : "text-gray-400"}`}
+                  key={tier}
+                  className={`flex flex-col p-8 border ${
+                    featured
+                      ? "bg-[#0B1F3A] border-[#0B1F3A]"
+                      : "bg-white border-gray-200"
+                  }`}
+                  style={{ borderRadius: "3px" }}
                 >
-                  {tag}
-                </div>
-                <div
-                  className={`text-2xl font-bold mb-1 ${highlight ? "text-white" : "text-[#1B3A6B]"}`}
-                >
-                  {name}
-                </div>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span
-                    className={`text-xl font-semibold ${highlight ? "text-[#C9A84C]" : "text-gray-700"}`}
-                  >
-                    {price}
-                  </span>
-                  {period && (
+                  {featured && (
                     <span
-                      className={`text-sm ${highlight ? "text-blue-300" : "text-gray-400"}`}
+                      className="self-start bg-[#B08D3C] text-white text-[11px] font-semibold px-2.5 py-1 mb-5"
+                      style={{ borderRadius: "2px" }}
                     >
-                      {period}
+                      Most chosen
                     </span>
                   )}
-                </div>
-                <ul className="space-y-2.5 mb-8 flex-1">
-                  {features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5">
-                      <CheckCircle
-                        className={`h-4 w-4 flex-shrink-0 ${highlight ? "text-[#C9A84C]" : "text-green-500"}`}
-                      />
+                  <p
+                    className={`text-[11px] font-semibold uppercase tracking-widest mb-1.5 ${
+                      featured ? "text-[#8FA3BC]" : "text-gray-400"
+                    }`}
+                  >
+                    {forLabel}
+                  </p>
+                  <h3
+                    className={`font-bold text-xl mb-4 ${featured ? "text-white" : "text-[#0B1F3A]"}`}
+                  >
+                    {tier}
+                  </h3>
+                  <div className="mb-1">
+                    <span
+                      className={`font-bold text-2xl tracking-tight ${
+                        featured ? "text-white" : "text-[#0B1F3A]"
+                      }`}
+                    >
+                      {price}
+                    </span>
+                    {unit && (
                       <span
-                        className={`text-sm ${highlight ? "text-blue-100" : "text-gray-600"}`}
+                        className={`text-[12px] ml-1.5 ${featured ? "text-[#8FA3BC]" : "text-gray-400"}`}
                       >
-                        {f}
+                        {unit}
                       </span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/sign-in"
-                  className={`w-full inline-flex items-center justify-center gap-2 font-semibold py-3 rounded-xl text-sm transition-all hover:gap-3 ${highlight ? "bg-[#C9A84C] hover:bg-[#b8933d] text-white" : "bg-[#1B3A6B] hover:bg-[#152d54] text-white"}`}
-                >
-                  Get Started <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            ))}
+                    )}
+                  </div>
+                  <p
+                    className={`text-[12px] mb-8 ${featured ? "text-[#4D6680]" : "text-gray-400"}`}
+                  >
+                    {cap}
+                  </p>
+                  <ul className="space-y-2.5 flex-1 mb-9">
+                    {features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <CheckCircle
+                          className={`h-4 w-4 flex-shrink-0 mt-px ${featured ? "text-[#B08D3C]" : "text-[#0B1F3A]"}`}
+                          strokeWidth={1.5}
+                        />
+                        <span
+                          className={`text-[13px] ${featured ? "text-[#8FA3BC]" : "text-gray-600"}`}
+                        >
+                          {f}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href="/sign-in"
+                    className={`block text-center text-[13px] font-semibold py-3 transition-colors ${
+                      featured
+                        ? "bg-[#B08D3C] hover:bg-[#9a7a32] text-white"
+                        : "bg-[#0B1F3A] hover:bg-[#162f54] text-white"
+                    }`}
+                    style={{ borderRadius: "3px" }}
+                  >
+                    Get started
+                  </Link>
+                </div>
+              ),
+            )}
           </div>
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
-      <section className="py-24 bg-[#1B3A6B]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
-            Ready to bring your school into the digital age?
-          </h2>
-          <p className="text-blue-200/80 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-            Join the schools already using Dura Schools to modernize their
-            operations and improve student outcomes.
-          </p>
-          <Link
-            href="/sign-in"
-            className="inline-flex items-center gap-2 bg-[#C9A84C] hover:bg-[#b8933d] text-white font-semibold px-8 py-4 rounded-xl text-base transition-all hover:gap-3"
-          >
-            Request a Free Demo <ArrowRight className="h-5 w-5" />
-          </Link>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
-            <a
-              href="mailto:info@duraschools.com"
-              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors text-sm"
+      {/* ── Final CTA ─────────────────────────────────── */}
+      <section className="bg-[#0B1F3A] py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <div style={{ maxWidth: "520px" }}>
+            <h2
+              className="text-white font-bold leading-tight tracking-tight mb-5"
+              style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
             >
-              <Mail className="h-4 w-4" /> info@duraschools.com
-            </a>
-            <a
-              href="tel:+251984881662"
-              className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors text-sm"
-            >
-              <Phone className="h-4 w-4" /> +251 984 881 662
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer ── */}
-      <footer className="bg-[#0f2347] py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-lg font-bold text-white">Dura</span>
-              <span className="text-lg font-light text-gray-500">Schools</span>
-            </div>
-            <p className="text-xs text-gray-600">
-              A product of Dura Tech · Made in Ethiopia
+              Ready to bring your school online?
+            </h2>
+            <p className="text-[#8FA3BC] text-[15px] mb-10 leading-relaxed">
+              We'll walk you through a live demo using a school set up exactly
+              the way yours would be. No slides. No pitch deck. Just the actual
+              product.
             </p>
-          </div>
-          <div className="flex items-center gap-8">
-            <Link
-              href="#features"
-              className="text-sm text-gray-500 hover:text-white transition-colors"
-            >
-              Features
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-sm text-gray-500 hover:text-white transition-colors"
-            >
-              Pricing
-            </Link>
             <Link
               href="/sign-in"
-              className="text-sm text-gray-500 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 bg-[#B08D3C] hover:bg-[#9a7a32] text-white font-semibold text-[13px] px-6 py-3 transition-colors"
+              style={{ borderRadius: "3px" }}
             >
-              Sign In
+              Request a demo <ArrowRight className="h-4 w-4" />
             </Link>
+            <div className="flex flex-col sm:flex-row gap-6 mt-10">
+              <a
+                href="mailto:info@duraschools.com"
+                className="flex items-center gap-2 text-[#4D6680] hover:text-[#8FA3BC] transition-colors text-[13px]"
+              >
+                <Mail className="h-4 w-4" /> info@duraschools.com
+              </a>
+              <a
+                href="tel:+251900000000"
+                className="flex items-center gap-2 text-[#4D6680] hover:text-[#8FA3BC] transition-colors text-[13px]"
+              >
+                <Phone className="h-4 w-4" /> +251 900 000 000
+              </a>
+            </div>
           </div>
-          <p className="text-xs text-gray-600">
-            © 2026 Dura Tech. All rights reserved.
+        </div>
+      </section>
+
+      {/* ── Footer ────────────────────────────────────── */}
+      <footer className="bg-[#060E1A] border-t border-white/5 py-10">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-0.5 mb-1.5">
+              <span className="text-white font-bold text-[15px] tracking-[-0.01em]">
+                Dura
+              </span>
+              <span className="text-[#334155] font-light text-[15px]">
+                Schools
+              </span>
+            </div>
+            <p className="text-[#1E3048] text-[12px]">
+              A product of Dura Tech &middot; Made in Ethiopia &middot; 2025
+            </p>
+          </div>
+          <nav className="flex gap-8">
+            {[
+              { label: "Features", href: "#features" },
+              { label: "Pricing", href: "#pricing" },
+              { label: "Sign in", href: "/sign-in" },
+            ].map(({ label, href }) => (
+              <Link
+                key={label}
+                href={href}
+                className="text-[#334155] hover:text-[#8FA3BC] text-[13px] transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <p className="text-[#1E3048] text-[12px]">
+            © 2025 Dura Tech. All rights reserved.
           </p>
         </div>
       </footer>
