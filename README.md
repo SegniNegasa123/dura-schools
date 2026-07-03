@@ -90,19 +90,3 @@ When you're ready to deploy your SaaS application to production, follow these st
 1. Go to the Stripe Dashboard and create a new webhook for your production environment.
 2. Set the endpoint URL to your production API route (e.g., `https://yourdomain.com/api/stripe/webhook`).
 3. Select the events you want to listen for (e.g., `checkout.session.completed`, `customer.subscription.updated`).
-
-### Deploy to Vercel
-
-1. Push your code to a GitHub repository.
-2. Connect your repository to [Vercel](https://vercel.com/) and deploy it.
-3. Follow the Vercel deployment process, which will guide you through setting up your project.
-
-### Add environment variables
-
-In your Vercel project settings (or during deployment), add all the necessary environment variables. Make sure to update the values for the production environment, including:
-
-1. `BASE_URL`: Set this to your production domain.
-2. `STRIPE_SECRET_KEY`: Use your Stripe secret key for the production environment.
-3. `STRIPE_WEBHOOK_SECRET`: Use the webhook secret from the production webhook you created in step 1.
-4. `POSTGRES_URL`: Set this to your production database URL.
-5. `AUTH_SECRET`: Set this to a random string. `openssl rand -base64 32` will generate one.
