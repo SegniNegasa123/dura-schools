@@ -1,0 +1,1 @@
+export default function Page() { return <div className='p-8 text-2xl font-bold text-[#1B3A6B]'>Coming soon</div>; }
