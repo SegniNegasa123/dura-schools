@@ -21,7 +21,7 @@ const modules = [
   {
     icon: ClipboardList,
     title: "Admissions",
-    desc: "Digital application forms, online review, and instant accept/reject notifications — no paper.",
+    desc: "Digital application forms, online review, and instant accept/reject notifications. no paper.",
   },
   {
     icon: GraduationCap,
@@ -56,7 +56,7 @@ const modules = [
   {
     icon: Bell,
     title: "Communication",
-    desc: "School-wide announcements, direct messages, and email notifications — all in one system.",
+    desc: "School-wide announcements, direct messages, and email notifications; all in one system.",
   },
   {
     icon: BarChart3,
