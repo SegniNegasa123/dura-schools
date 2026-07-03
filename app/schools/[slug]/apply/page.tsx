@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/drizzle";
-import { schools } from "@/lib/db/schema";
+import { schools, applications } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
