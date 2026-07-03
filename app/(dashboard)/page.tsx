@@ -1,79 +1,78 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowDown,
   CheckCircle,
-  Users,
-  BookOpen,
-  Building2,
-  BarChart2,
-  Bell,
   ClipboardList,
   GraduationCap,
+  BookOpen,
+  Users,
+  Shield,
   BedDouble,
   CheckSquare,
+  Bell,
+  BarChart2,
   Phone,
   Mail,
-  Shield,
-  ArrowDown,
 } from "lucide-react";
 
 const modules = [
   {
     icon: ClipboardList,
     title: "Admissions",
-    body: "The application form lives on your school's public page. Parents fill it out from their phone. You review from your dashboard and notify applicants in one click. No paper, no lost files.",
+    body: "The application form lives on your school's public page. Parents submit from a phone. You review from your dashboard and respond in one click. No paper, no lost files.",
   },
   {
     icon: GraduationCap,
     title: "Student Records",
-    body: "Every enrolled student has a complete digital file — grades, attendance history, guardian contacts, dormitory assignment, and uploaded documents.",
+    body: "Complete digital student files — academic history, attendance, guardian contacts, dormitory assignment, and uploaded documents, all in one place.",
   },
   {
     icon: BookOpen,
     title: "Teacher Portal",
-    body: "Attendance in three minutes at the start of class. Grades entered once after an exam. Parents notified the same day. The paper register stays in the drawer.",
+    body: "Attendance in three minutes at the start of class. Grades entered after an exam. Parents notified the same day. The paper register stays in the drawer.",
   },
   {
     icon: Users,
     title: "Parent Portal",
-    body: "A parent in Addis can open their phone and see their child's attendance, most recent exam score, and dormitory room — without calling anyone.",
+    body: "A parent in Addis opens their phone and sees their child's attendance for the week, their most recent grade, and what dormitory block they are in — without calling anyone.",
   },
   {
     icon: Shield,
     title: "Student Dashboard",
-    body: "Students see their class schedule, exam results, school notices, and room assignment in one place. Nothing more, nothing less.",
+    body: "Students see their class schedule, exam results, school announcements, and room assignment in one place. Nothing more, nothing less.",
   },
   {
     icon: BedDouble,
     title: "Boarding Management",
-    body: "Room assignments, nightly dormitory checks, and house master reports — organized, timestamped, and on record.",
+    body: "Room assignments, nightly dormitory checks, and house master reports — organized and on record. Incidents notify the school director automatically.",
   },
   {
     icon: CheckSquare,
     title: "Attendance & Grades",
-    body: "Digital attendance records build automatically each day. When a student is absent, their parent receives an alert before the end of the school day.",
+    body: "Digital attendance records that build each day without extra work. When a student is absent, the parent receives an alert before the school day ends.",
   },
   {
     icon: Bell,
     title: "Communication",
-    body: "School-wide announcements reach every parent in seconds. Teachers and parents exchange messages through the platform — not through personal phones.",
+    body: "School-wide announcements reach every parent in seconds. Teachers and parents message through the platform — not through personal phones.",
   },
   {
     icon: BarChart2,
     title: "Admin Analytics",
-    body: "Enrollment numbers, attendance rates, and academic performance are visible to the school director in real time — not compiled manually at end of term.",
+    body: "Enrollment numbers, attendance rates, and academic trends are visible to the director in real time — not compiled by hand at the end of term.",
   },
 ];
 
-const pricing = [
+const pricingPlans = [
   {
     tier: "Starter",
     for: "Secondary schools",
-    price: "1,500",
-    unit: "ETB / month",
+    price: "1,500 ETB",
+    per: "per month",
     cap: "Up to 300 students",
     featured: false,
-    features: [
+    items: [
       "Admissions module",
       "Student records (SIS)",
       "Attendance & grades",
@@ -84,11 +83,11 @@ const pricing = [
   {
     tier: "Professional",
     for: "Boarding schools",
-    price: "3,500",
-    unit: "ETB / month",
+    price: "3,500 ETB",
+    per: "per month",
     cap: "Up to 800 students",
     featured: true,
-    features: [
+    items: [
       "Everything in Starter",
       "Parent portal",
       "Teacher portal",
@@ -101,10 +100,10 @@ const pricing = [
     tier: "Enterprise",
     for: "Large institutions",
     price: "Custom",
-    unit: "",
+    per: "",
     cap: "Unlimited students",
     featured: false,
-    features: [
+    items: [
       "Everything in Professional",
       "Student dashboard",
       "Admin analytics",
@@ -115,52 +114,87 @@ const pricing = [
   },
 ];
 
+const SERIF = 'Georgia, "Times New Roman", "Book Antiqua", serif';
+const SANS =
+  'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
+
+const Label = ({ children }: { children: React.ReactNode }) => (
+  <p
+    className="text-[#A51C30] text-[11px] font-semibold tracking-[0.2em] uppercase mb-5"
+    style={{ fontFamily: SANS }}
+  >
+    {children}
+  </p>
+);
+
+const H2 = ({
+  children,
+  style,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}) => (
+  <h2
+    className="text-[#1A1A1A] font-bold leading-tight"
+    style={{
+      fontFamily: SERIF,
+      fontSize: "clamp(26px, 3.2vw, 40px)",
+      letterSpacing: "-0.015em",
+      ...style,
+    }}
+  >
+    {children}
+  </h2>
+);
+
 export default function Page() {
   return (
-    <div
-      className="bg-white"
-      style={{
-        fontFamily:
-          'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif',
-      }}
-    >
-      {/* ── Navigation ─────────────────────────────────── */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-[58px]">
-          <Link href="/" className="flex items-center gap-0.5 select-none">
-            <span className="text-[#0B1F3A] font-bold text-[17px] tracking-[-0.01em]">
+    <div className="bg-white text-[#1A1A1A]">
+      {/* ── Header ─────────────────────────────────────── */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-[#E2DDD7]">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-[56px]">
+          <Link href="/" className="flex items-baseline gap-0.5 select-none">
+            <span
+              style={{ fontFamily: SERIF }}
+              className="font-bold text-[17px] text-[#A51C30] tracking-tight"
+            >
               Dura
             </span>
-            <span className="text-gray-400 font-light text-[17px]">
+            <span
+              style={{ fontFamily: SERIF }}
+              className="font-normal text-[17px] text-[#1A1A1A]"
+            >
               Schools
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             {[
-              { label: "Features", href: "#features" },
-              { label: "How It Works", href: "#how-it-works" },
-              { label: "Pricing", href: "#pricing" },
-            ].map(({ label, href }) => (
+              ["Features", "#features"],
+              ["How It Works", "#how-it-works"],
+              ["Pricing", "#pricing"],
+            ].map(([l, h]) => (
               <Link
-                key={label}
-                href={href}
-                className="text-[13px] text-gray-500 hover:text-[#0B1F3A] transition-colors"
+                key={l}
+                href={h}
+                className="text-[13px] text-[#716860] hover:text-[#1A1A1A] transition-colors"
+                style={{ fontFamily: SANS }}
               >
-                {label}
+                {l}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link
               href="/sign-in"
-              className="text-[13px] text-gray-500 hover:text-[#0B1F3A] px-3 py-1.5 transition-colors"
+              className="text-[13px] text-[#716860] hover:text-[#1A1A1A] transition-colors"
+              style={{ fontFamily: SANS }}
             >
               Sign in
             </Link>
             <Link
               href="/sign-in"
-              className="text-[13px] font-semibold bg-[#0B1F3A] text-white px-4 py-2 hover:bg-[#162f54] transition-colors"
-              style={{ borderRadius: "3px" }}
+              className="text-[13px] font-semibold bg-[#A51C30] hover:bg-[#8B1627] text-white px-4 py-2 transition-colors"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
             >
               Request a demo
             </Link>
@@ -169,20 +203,29 @@ export default function Page() {
       </header>
 
       {/* ── Hero ───────────────────────────────────────── */}
-      <section className="bg-[#0B1F3A] pt-[58px]">
+      <section className="bg-[#A51C30] pt-[56px]">
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
-          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-8">
+          <p
+            className="text-white/60 text-[11px] font-semibold tracking-[0.22em] uppercase mb-8"
+            style={{ fontFamily: SANS }}
+          >
             For boarding and secondary schools in Ethiopia
           </p>
           <h1
-            className="text-white font-bold leading-[1.05] tracking-[-0.02em] mb-8"
-            style={{ fontSize: "clamp(38px, 6vw, 68px)", maxWidth: "680px" }}
+            className="text-white font-bold mb-8"
+            style={{
+              fontFamily: SERIF,
+              fontSize: "clamp(38px, 6vw, 72px)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+              maxWidth: "680px",
+            }}
           >
-            The school platform Ethiopia has been waiting for.
+            Digital infrastructure for Ethiopia's boarding schools.
           </h1>
           <p
-            className="text-[#8FA3BC] text-lg leading-relaxed mb-10"
-            style={{ maxWidth: "500px" }}
+            className="text-white/75 text-[17px] leading-relaxed mb-10"
+            style={{ fontFamily: SANS, maxWidth: "500px" }}
           >
             Every Ethiopian university has a student portal. Most boarding
             schools still run on paper registers and phone calls. Dura Schools
@@ -191,21 +234,20 @@ export default function Page() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/sign-in"
-              className="inline-flex items-center justify-center gap-2 bg-[#B08D3C] hover:bg-[#9a7a32] text-white font-semibold text-[13px] px-6 py-3 transition-colors"
-              style={{ borderRadius: "3px" }}
+              className="inline-flex items-center justify-center gap-2 bg-white text-[#A51C30] font-semibold text-[13px] px-6 py-3 hover:bg-[#F8F6F2] transition-colors"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
             >
-              Request a demo <ArrowRight className="h-4 w-4" />
+              Request a demonstration <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="#features"
-              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/70 hover:border-white/30 hover:text-white/90 text-[13px] px-6 py-3 transition-colors"
-              style={{ borderRadius: "3px" }}
+              className="inline-flex items-center justify-center gap-2 border border-white/25 text-white hover:border-white/45 text-[13px] px-6 py-3 transition-colors"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
             >
-              See the platform <ArrowDown className="h-4 w-4" />
+              Explore the platform <ArrowDown className="h-4 w-4" />
             </Link>
           </div>
-
-          <div className="mt-20 pt-10 border-t border-white/8 flex flex-wrap gap-10">
+          <div className="mt-20 pt-10 border-t border-white/12 flex flex-wrap gap-12">
             {[
               ["9", "platform modules"],
               ["5", "user portals"],
@@ -213,86 +255,96 @@ export default function Page() {
               ["0", "paper required"],
             ].map(([n, l]) => (
               <div key={l}>
-                <div className="text-white font-bold text-2xl tracking-tight">
+                <div
+                  className="text-white font-bold text-[28px] leading-none"
+                  style={{ fontFamily: SERIF }}
+                >
                   {n}
                 </div>
-                <div className="text-[#4D6680] text-xs mt-0.5">{l}</div>
+                <div
+                  className="text-white/45 text-[12px] mt-1.5"
+                  style={{ fontFamily: SANS }}
+                >
+                  {l}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── The Gap We Fill ───────────────────────────── */}
+      {/* ── Problem ─────────────────────────────────────── */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-20 items-start">
-            <div>
-              <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-6">
-                The problem we solve
-              </p>
-              <h2
-                className="text-[#0B1F3A] font-bold leading-tight tracking-tight"
-                style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
-              >
-                Universities in Ethiopia have digital portals. Boarding schools
-                do not.
-              </h2>
+          <div className="grid md:grid-cols-12 gap-12">
+            <div className="md:col-span-5">
+              <Label>The gap we fill</Label>
+              <H2>
+                Universities in Ethiopia have digital portals.
+                <br />
+                Boarding schools do not.
+              </H2>
             </div>
-            <div className="space-y-5 pt-1 md:pt-10">
-              <p className="text-gray-600 text-[15px] leading-relaxed">
-                A parent in Addis Ababa with a child at a boarding school in
-                Jimma has no way to check their child's attendance. They call
-                the school. Sometimes the school picks up.
-              </p>
-              <p className="text-gray-600 text-[15px] leading-relaxed">
-                Students finishing elementary school cannot research and compare
-                boarding schools before applying. Applications arrive on paper,
-                by hand, and sometimes get lost.
-              </p>
-              <p className="text-gray-600 text-[15px] leading-relaxed">
-                School directors have no view of their own data unless they go
-                through each physical file themselves. There is no dashboard.
-                There is no system.
-              </p>
-              <p className="text-[#0B1F3A] text-[15px] font-semibold pt-2">
-                Dura Schools fixes all of this.
+            <div className="md:col-span-7 md:pt-14 space-y-5">
+              {[
+                "A parent in Addis Ababa with a child at a boarding school in Jimma has no way to check their child's attendance. They call the school. Sometimes the school picks up.",
+                "Students finishing elementary school cannot research and compare boarding schools before applying. Applications arrive on paper, by hand, and sometimes get lost.",
+                "School directors have no view of their own data unless they go through each physical file themselves. There is no dashboard. There is no system.",
+              ].map((p, i) => (
+                <p
+                  key={i}
+                  className="text-[#3D3530] text-[15px] leading-relaxed"
+                  style={{ fontFamily: SANS }}
+                >
+                  {p}
+                </p>
+              ))}
+              <p
+                className="text-[#1A1A1A] text-[15px] font-semibold pt-1"
+                style={{ fontFamily: SANS }}
+              >
+                Dura Schools addresses all of this.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Modules ───────────────────────────────────── */}
-      <section id="features" className="bg-[#F5F6F8] py-24 md:py-32">
+      <div className="max-w-6xl mx-auto px-6">
+        <hr className="border-[#E2DDD7]" />
+      </div>
+
+      {/* ── Modules ─────────────────────────────────────── */}
+      <section id="features" className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-14">
-            <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
-              Platform modules
-            </p>
-            <h2
-              className="text-[#0B1F3A] font-bold leading-tight tracking-tight max-w-md"
-              style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
-            >
-              Nine modules. One platform. Every school.
-            </h2>
+            <Label>Platform modules</Label>
+            <H2 style={{ maxWidth: "400px" }}>
+              Nine modules.
+              <br />
+              One platform. Every school.
+            </H2>
           </div>
-
-          {/* Grid with 1px hairline separators — the signature element */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#E2DDD7]">
             {modules.map(({ icon: Icon, title, body }) => (
               <div
                 key={title}
-                className="bg-[#F5F6F8] hover:bg-white transition-colors p-8 group cursor-default"
+                className="bg-[#F8F6F2] hover:bg-white transition-colors p-8"
               >
                 <Icon
-                  className="h-[18px] w-[18px] text-[#0B1F3A] mb-5 opacity-60"
+                  className="h-[17px] w-[17px] text-[#A51C30] mb-5"
                   strokeWidth={1.5}
                 />
-                <h3 className="text-[#0B1F3A] font-semibold text-[14px] mb-3">
+                <h3
+                  className="font-semibold text-[#1A1A1A] text-[14px] mb-3"
+                  style={{ fontFamily: SANS }}
+                >
                   {title}
                 </h3>
-                <p className="text-gray-500 text-[13px] leading-relaxed">
+                <p
+                  className="text-[#716860] text-[13px] leading-relaxed"
+                  style={{ fontFamily: SANS }}
+                >
                   {body}
                 </p>
               </div>
@@ -301,15 +353,18 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── How It Works ──────────────────────────────── */}
-      <section id="how-it-works" className="bg-[#0B1F3A] py-24 md:py-32">
+      {/* ── How It Works ────────────────────────────────── */}
+      <section id="how-it-works" className="bg-[#1A1A1A] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-6">
-            Getting started
-          </p>
+          <Label>Getting started</Label>
           <h2
-            className="text-white font-bold leading-tight tracking-tight mb-20"
-            style={{ fontSize: "clamp(26px, 3.5vw, 40px)", maxWidth: "380px" }}
+            className="text-white font-bold leading-tight mb-20"
+            style={{
+              fontFamily: SERIF,
+              fontSize: "clamp(26px, 3.2vw, 40px)",
+              letterSpacing: "-0.015em",
+              maxWidth: "360px",
+            }}
           >
             Your school is live in one day.
           </h2>
@@ -323,23 +378,32 @@ export default function Page() {
               {
                 ord: "Two",
                 title: "Everyone gets their portal",
-                body: "Each user type — director, teacher, parent, student — logs into their own view with exactly the tools they need and nothing they do not.",
+                body: "Each user type logs into their own view with exactly the tools they need and nothing they do not. Teachers see classes. Parents see their child.",
               },
               {
                 ord: "Three",
                 title: "Your school runs better",
-                body: "Admissions are online. Parents are informed. Directors see live data. Teachers use three minutes on attendance instead of twenty.",
+                body: "Admissions are online. Parents are informed. Directors see live data. Teachers spend three minutes on attendance instead of twenty.",
               },
             ].map(({ ord, title, body }) => (
               <div key={ord}>
-                <p className="text-[#B08D3C] text-[12px] font-semibold mb-4">
+                <p
+                  className="text-[#A51C30] text-[12px] font-semibold mb-4"
+                  style={{ fontFamily: SANS }}
+                >
                   {ord}
                 </p>
-                <div className="w-8 h-px bg-[#B08D3C] mb-7" />
-                <h3 className="text-white font-semibold text-[15px] mb-3">
+                <div className="w-8 h-px bg-[#A51C30] mb-6" />
+                <h3
+                  className="text-white font-semibold text-[15px] mb-3"
+                  style={{ fontFamily: SANS }}
+                >
                   {title}
                 </h3>
-                <p className="text-[#8FA3BC] text-[13px] leading-relaxed">
+                <p
+                  className="text-[#8A7F78] text-[13px] leading-relaxed"
+                  style={{ fontFamily: SANS }}
+                >
                   {body}
                 </p>
               </div>
@@ -348,59 +412,58 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── Five Portals ──────────────────────────────── */}
+      {/* ── Five Portals ────────────────────────────────── */}
       <section className="bg-white py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
-            Who it's for
-          </p>
-          <h2
-            className="text-[#0B1F3A] font-bold leading-tight tracking-tight mb-4"
-            style={{ fontSize: "clamp(26px, 3.5vw, 40px)", maxWidth: "480px" }}
+          <Label>Who it's for</Label>
+          <H2 style={{ maxWidth: "480px", marginBottom: "12px" }}>
+            Five portals. Each built for the person using it.
+          </H2>
+          <p
+            className="text-[#716860] text-[15px] mb-14 max-w-lg"
+            style={{ fontFamily: SANS }}
           >
-            Five portals. Each one built for the person using it.
-          </h2>
-          <p className="text-gray-500 text-[15px] mb-14 max-w-lg">
-            Everyone at your school uses the same platform — but sees only what
-            is relevant to them.
+            Everyone in your school uses the same platform — but sees only what
+            is relevant to their role.
           </p>
-          <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-[#E2DDD7]">
             {[
               {
                 role: "Dura Admin",
                 desc: "Platform-wide oversight across all schools on the system.",
-                bg: "#F2F0F7",
               },
               {
                 role: "School Admin",
-                desc: "The director or registrar manages the full school.",
-                bg: "#EEF3F9",
+                desc: "The director or registrar manages the entire school.",
               },
               {
                 role: "Teachers",
-                desc: "Class attendance, grade entry, and messages to parents.",
-                bg: "#EEF6F2",
+                desc: "Attendance, grade entry, and parent communication.",
               },
               {
                 role: "Parents",
                 desc: "Their child's attendance, grades, and dormitory status.",
-                bg: "#FBF5E8",
               },
               {
                 role: "Students",
                 desc: "Schedule, exam results, and school announcements.",
-                bg: "#F5EEF8",
               },
-            ].map(({ role, desc, bg }) => (
+            ].map(({ role, desc }) => (
               <div
                 key={role}
-                className="p-5"
-                style={{ backgroundColor: bg, borderRadius: "3px" }}
+                className="bg-white hover:bg-[#F8F6F2] transition-colors p-7"
               >
-                <p className="text-[#0B1F3A] font-semibold text-[13px] mb-2">
+                <div className="w-5 h-px bg-[#A51C30] mb-5" />
+                <p
+                  className="text-[#1A1A1A] font-semibold text-[13px] mb-2"
+                  style={{ fontFamily: SANS }}
+                >
                   {role}
                 </p>
-                <p className="text-gray-500 text-[12px] leading-relaxed">
+                <p
+                  className="text-[#716860] text-[12px] leading-relaxed"
+                  style={{ fontFamily: SANS }}
+                >
                   {desc}
                 </p>
               </div>
@@ -409,111 +472,90 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── Pricing ───────────────────────────────────── */}
-      <section id="pricing" className="bg-[#F5F6F8] py-24 md:py-32">
+      {/* ── Pricing ─────────────────────────────────────── */}
+      <section id="pricing" className="bg-[#F8F6F2] py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-6">
-          <p className="text-[#B08D3C] text-[11px] font-semibold tracking-[0.18em] uppercase mb-5">
-            Pricing
-          </p>
+          <Label>Pricing</Label>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
-            <h2
-              className="text-[#0B1F3A] font-bold leading-tight tracking-tight"
-              style={{
-                fontSize: "clamp(26px, 3.5vw, 40px)",
-                maxWidth: "320px",
-              }}
+            <H2 style={{ maxWidth: "280px" }}>Straightforward pricing.</H2>
+            <p
+              className="text-[#716860] text-[13px] max-w-xs"
+              style={{ fontFamily: SANS }}
             >
-              Simple, honest pricing.
-            </h2>
-            <p className="text-gray-500 text-[13px] max-w-xs">
-              Monthly subscription. No setup fee. No surprise charges. Cancel
-              with 30 days' notice.
+              Monthly subscription. No setup fee. No hidden charges.
+              <br />
+              Cancel with 30 days' notice.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {pricing.map(
-              ({
-                tier,
-                for: forLabel,
-                price,
-                unit,
-                cap,
-                featured,
-                features,
-              }) => (
+          <div className="grid md:grid-cols-3 gap-px bg-[#E2DDD7]">
+            {pricingPlans.map(
+              ({ tier, for: fl, price, per, cap, featured, items }) => (
                 <div
                   key={tier}
-                  className={`flex flex-col p-8 border ${
-                    featured
-                      ? "bg-[#0B1F3A] border-[#0B1F3A]"
-                      : "bg-white border-gray-200"
-                  }`}
-                  style={{ borderRadius: "3px" }}
+                  className={`flex flex-col p-8 ${featured ? "bg-[#A51C30]" : "bg-[#F8F6F2] hover:bg-white transition-colors"}`}
                 >
                   {featured && (
                     <span
-                      className="self-start bg-[#B08D3C] text-white text-[11px] font-semibold px-2.5 py-1 mb-5"
-                      style={{ borderRadius: "2px" }}
+                      className="self-start bg-white text-[#A51C30] text-[11px] font-bold px-2.5 py-1 mb-5"
+                      style={{ fontFamily: SANS, borderRadius: "2px" }}
                     >
                       Most chosen
                     </span>
                   )}
                   <p
-                    className={`text-[11px] font-semibold uppercase tracking-widest mb-1.5 ${
-                      featured ? "text-[#8FA3BC]" : "text-gray-400"
-                    }`}
+                    className={`text-[11px] font-semibold uppercase tracking-widest mb-2 ${featured ? "text-white/55" : "text-[#9A8F87]"}`}
+                    style={{ fontFamily: SANS }}
                   >
-                    {forLabel}
+                    {fl}
                   </p>
                   <h3
-                    className={`font-bold text-xl mb-4 ${featured ? "text-white" : "text-[#0B1F3A]"}`}
+                    className={`font-bold text-xl mb-3 ${featured ? "text-white" : "text-[#1A1A1A]"}`}
+                    style={{ fontFamily: SERIF }}
                   >
                     {tier}
                   </h3>
                   <div className="mb-1">
                     <span
-                      className={`font-bold text-2xl tracking-tight ${
-                        featured ? "text-white" : "text-[#0B1F3A]"
-                      }`}
+                      className={`font-bold text-[26px] tracking-tight ${featured ? "text-white" : "text-[#1A1A1A]"}`}
+                      style={{ fontFamily: SERIF }}
                     >
                       {price}
                     </span>
-                    {unit && (
+                    {per && (
                       <span
-                        className={`text-[12px] ml-1.5 ${featured ? "text-[#8FA3BC]" : "text-gray-400"}`}
+                        className={`text-[12px] ml-2 ${featured ? "text-white/55" : "text-[#9A8F87]"}`}
+                        style={{ fontFamily: SANS }}
                       >
-                        {unit}
+                        {per}
                       </span>
                     )}
                   </div>
                   <p
-                    className={`text-[12px] mb-8 ${featured ? "text-[#4D6680]" : "text-gray-400"}`}
+                    className={`text-[12px] mb-8 ${featured ? "text-white/55" : "text-[#9A8F87]"}`}
+                    style={{ fontFamily: SANS }}
                   >
                     {cap}
                   </p>
                   <ul className="space-y-2.5 flex-1 mb-9">
-                    {features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5">
+                    {items.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
                         <CheckCircle
-                          className={`h-4 w-4 flex-shrink-0 mt-px ${featured ? "text-[#B08D3C]" : "text-[#0B1F3A]"}`}
+                          className={`h-4 w-4 flex-shrink-0 mt-px ${featured ? "text-white/65" : "text-[#A51C30]"}`}
                           strokeWidth={1.5}
                         />
                         <span
-                          className={`text-[13px] ${featured ? "text-[#8FA3BC]" : "text-gray-600"}`}
+                          className={`text-[13px] ${featured ? "text-white/75" : "text-[#3D3530]"}`}
+                          style={{ fontFamily: SANS }}
                         >
-                          {f}
+                          {item}
                         </span>
                       </li>
                     ))}
                   </ul>
                   <Link
                     href="/sign-in"
-                    className={`block text-center text-[13px] font-semibold py-3 transition-colors ${
-                      featured
-                        ? "bg-[#B08D3C] hover:bg-[#9a7a32] text-white"
-                        : "bg-[#0B1F3A] hover:bg-[#162f54] text-white"
-                    }`}
-                    style={{ borderRadius: "3px" }}
+                    className={`block text-center text-[13px] font-semibold py-3 transition-colors ${featured ? "bg-white text-[#A51C30] hover:bg-[#F8F6F2]" : "bg-[#A51C30] text-white hover:bg-[#8B1627]"}`}
+                    style={{ fontFamily: SANS, borderRadius: "2px" }}
                   >
                     Get started
                   </Link>
@@ -524,38 +566,47 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── Final CTA ─────────────────────────────────── */}
-      <section className="bg-[#0B1F3A] py-24">
+      {/* ── CTA ─────────────────────────────────────────── */}
+      <section className="bg-[#A51C30] py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div style={{ maxWidth: "520px" }}>
             <h2
-              className="text-white font-bold leading-tight tracking-tight mb-5"
-              style={{ fontSize: "clamp(26px, 3.5vw, 40px)" }}
+              className="text-white font-bold leading-tight mb-5"
+              style={{
+                fontFamily: SERIF,
+                fontSize: "clamp(28px, 3.5vw, 44px)",
+                letterSpacing: "-0.015em",
+              }}
             >
-              Ready to bring your school online?
+              Start the conversation.
             </h2>
-            <p className="text-[#8FA3BC] text-[15px] mb-10 leading-relaxed">
-              We'll walk you through a live demo using a school set up exactly
-              the way yours would be. No slides. No pitch deck. Just the actual
+            <p
+              className="text-white/70 text-[16px] leading-relaxed mb-10"
+              style={{ fontFamily: SANS }}
+            >
+              We will walk you through a demonstration using a school configured
+              exactly as yours would be. No slides. No pitch deck. The actual
               product.
             </p>
             <Link
               href="/sign-in"
-              className="inline-flex items-center gap-2 bg-[#B08D3C] hover:bg-[#9a7a32] text-white font-semibold text-[13px] px-6 py-3 transition-colors"
-              style={{ borderRadius: "3px" }}
+              className="inline-flex items-center gap-2 bg-white text-[#A51C30] font-semibold text-[13px] px-6 py-3 hover:bg-[#F8F6F2] transition-colors"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
             >
-              Request a demo <ArrowRight className="h-4 w-4" />
+              Request a demonstration <ArrowRight className="h-4 w-4" />
             </Link>
             <div className="flex flex-col sm:flex-row gap-6 mt-10">
               <a
                 href="mailto:info@duraschools.com"
-                className="flex items-center gap-2 text-[#4D6680] hover:text-[#8FA3BC] transition-colors text-[13px]"
+                className="flex items-center gap-2 text-white/45 hover:text-white/75 transition-colors text-[13px]"
+                style={{ fontFamily: SANS }}
               >
                 <Mail className="h-4 w-4" /> info@duraschools.com
               </a>
               <a
                 href="tel:+251900000000"
-                className="flex items-center gap-2 text-[#4D6680] hover:text-[#8FA3BC] transition-colors text-[13px]"
+                className="flex items-center gap-2 text-white/45 hover:text-white/75 transition-colors text-[13px]"
+                style={{ fontFamily: SANS }}
               >
                 <Phone className="h-4 w-4" /> +251 900 000 000
               </a>
@@ -564,39 +615,88 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── Footer ────────────────────────────────────── */}
-      <footer className="bg-[#060E1A] border-t border-white/5 py-10">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
-          <div>
-            <div className="flex items-center gap-0.5 mb-1.5">
-              <span className="text-white font-bold text-[15px] tracking-[-0.01em]">
-                Dura
-              </span>
-              <span className="text-[#334155] font-light text-[15px]">
-                Schools
-              </span>
-            </div>
-            <p className="text-[#1E3048] text-[12px]">
-              A product of Dura Tech &middot; Made in Ethiopia &middot; 2025
-            </p>
-          </div>
-          <nav className="flex gap-8">
-            {[
-              { label: "Features", href: "#features" },
-              { label: "Pricing", href: "#pricing" },
-              { label: "Sign in", href: "/sign-in" },
-            ].map(({ label, href }) => (
-              <Link
-                key={label}
-                href={href}
-                className="text-[#334155] hover:text-[#8FA3BC] text-[13px] transition-colors"
+      {/* ── Footer ──────────────────────────────────────── */}
+      <footer className="bg-[#111111] pt-16 pb-10">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/6">
+            <div>
+              <div className="flex items-baseline gap-0.5 mb-3">
+                <span
+                  className="font-bold text-[16px] text-[#A51C30]"
+                  style={{ fontFamily: SERIF }}
+                >
+                  Dura
+                </span>
+                <span
+                  className="font-normal text-[16px] text-white/70"
+                  style={{ fontFamily: SERIF }}
+                >
+                  Schools
+                </span>
+              </div>
+              <p
+                className="text-[#4A4440] text-[12px] leading-relaxed"
+                style={{ fontFamily: SANS }}
               >
-                {label}
-              </Link>
+                A product of Dura Tech.
+                <br />
+                Made in Ethiopia. 2026.
+              </p>
+            </div>
+            {[
+              {
+                heading: "Platform",
+                links: [
+                  ["Features", "#features"],
+                  ["How It Works", "#how-it-works"],
+                  ["Pricing", "#pricing"],
+                ],
+              },
+              {
+                heading: "Company",
+                links: [
+                  ["About Dura Tech", "#"],
+                  ["Request a Demo", "/sign-in"],
+                  ["Sign In", "/sign-in"],
+                ],
+              },
+              {
+                heading: "Contact",
+                links: [
+                  ["info@duraschools.com", "mailto:info@duraschools.com"],
+                  ["+251 900 000 000", "tel:+25190"],
+                  ["Addis Ababa, Ethiopia", "#"],
+                ],
+              },
+            ].map(({ heading, links }) => (
+              <div key={heading}>
+                <p
+                  className="text-[#A51C30] text-[11px] font-semibold tracking-[0.15em] uppercase mb-4"
+                  style={{ fontFamily: SANS }}
+                >
+                  {heading}
+                </p>
+                <ul className="space-y-2.5">
+                  {links.map(([label, href]) => (
+                    <li key={label}>
+                      <Link
+                        href={href}
+                        className="text-[#4A4440] hover:text-white text-[13px] transition-colors"
+                        style={{ fontFamily: SANS }}
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </nav>
-          <p className="text-[#1E3048] text-[12px]">
-            © 2025 Dura Tech. All rights reserved.
+          </div>
+          <p
+            className="text-[#252220] text-[12px] mt-6"
+            style={{ fontFamily: SANS }}
+          >
+            © 2026 Dura Tech. All rights reserved.
           </p>
         </div>
       </footer>
