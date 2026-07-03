@@ -1,7 +1,9 @@
 # Dura Schools
 The premier admissions and management portal for boarding schools in Ethiopia, with support for authentication, Stripe integration for payments, and a dashboard for logged-in users.
 
-**Demo: [https://next-saas-start.vercel.app/](https://next-saas-start.vercel.app/)**
+**Demo: https://dura-schools.vercel.app/ 
+[https://next-saas-start.vercel.app/]([https://next-saas-start.vercel.app/](https://dura-schools.vercel.app/))**
+https://dura-schools.vercel.app/ 
 
 ## Features
 
