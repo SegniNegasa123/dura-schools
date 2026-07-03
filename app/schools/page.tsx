@@ -20,11 +20,11 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default async function SchoolDirectoryPage() {
-  let fetchedSchools: any[] = [];
+  let fetchedschools: any[] = [];
 
   try {
     // Querying active schools from your Supabase connected instance
-    fetchedSchools = await db
+    fetchedschools = await db
       .select({
         id: schools.id,
         name: schools.name,
@@ -35,7 +35,7 @@ export default async function SchoolDirectoryPage() {
   } catch (error) {
     console.error("Database fetch fallback:", error);
     // Graceful placeholder data if table migrations are running
-    fetchedSchools = [];
+    fetchedschools = [];
   }
 
   return (
@@ -54,7 +54,7 @@ export default async function SchoolDirectoryPage() {
               style={{ fontFamily: SERIF }}
               className="font-normal text-[17px] text-[#1A1A1A]"
             >
-              Schools
+              schools
             </span>
           </Link>
           <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ export default async function SchoolDirectoryPage() {
         </div>
 
         {/* Directory Card Grid */}
-        {fetchedSchools.length === 0 ? (
+        {fetchedschools.length === 0 ? (
           <div className="bg-white border border-[#E2DDD7] p-12 text-center rounded-[2px]">
             <p
               className="text-[#716860] text-[14px]"
@@ -107,7 +107,7 @@ export default async function SchoolDirectoryPage() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#E2DDD7] border border-[#E2DDD7]">
-            {fetchedSchools.map((school) => (
+            {fetchedschools.map((school) => (
               <div
                 key={school.id}
                 className="bg-white p-8 flex flex-col justify-between hover:bg-[#F8F6F2] transition-colors min-h-[220px]"
