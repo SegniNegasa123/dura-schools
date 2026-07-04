@@ -1,49 +1,60 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { signToken, verifyToken } from '@/lib/auth/session';
+import { NextResponse, type NextRequest } from "next/server";
+import { verifyToken } from "@/lib/auth/session";
 
-const protectedRoutes = '/dashboard';
+// Any URL whose second segment is one of these is a school-scoped portal page.
+const PORTAL_SEGMENTS = [
+  "dashboard",
+  "teacher",
+  "parent",
+  "student",
+  "boarding",
+];
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const sessionCookie = request.cookies.get('session');
-  const isProtectedRoute = pathname.startsWith(protectedRoutes);
+  const path = request.nextUrl.pathname;
+  const segments = path.split("/").filter(Boolean);
 
-  if (isProtectedRoute && !sessionCookie) {
-    return NextResponse.redirect(new URL('/sign-in', request.url));
+  const isAdminRoute = segments[0] === "admin";
+  const isSchoolPortalRoute =
+    segments.length >= 2 && PORTAL_SEGMENTS.includes(segments[1]);
+  const isPortalHub = path === "/portal";
+  const isProtectedRoute = isAdminRoute || isSchoolPortalRoute || isPortalHub;
+
+  // Public pages (homepage, /schools, /sign-in, application forms) pass straight through.
+  if (!isProtectedRoute) {
+    return NextResponse.next();
   }
 
-  let res = NextResponse.next();
+  const sessionCookie = request.cookies.get("session")?.value;
 
-  if (sessionCookie && request.method === 'GET') {
-    try {
-      const parsed = await verifyToken(sessionCookie.value);
-      const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  if (!sessionCookie) {
+    const redirectUrl = new URL("/sign-in", request.url);
+    redirectUrl.searchParams.set("next", path);
+    return NextResponse.redirect(redirectUrl);
+  }
 
-      res.cookies.set({
-        name: 'session',
-        value: await signToken({
-          ...parsed,
-          expires: expiresInOneDay.toISOString()
-        }),
-        httpOnly: true,
-        secure: true,
-        sameSite: 'lax',
-        expires: expiresInOneDay
-      });
-    } catch (error) {
-      console.error('Error updating session:', error);
-      res.cookies.delete('session');
-      if (isProtectedRoute) {
-        return NextResponse.redirect(new URL('/sign-in', request.url));
-      }
+  // Verify the JWT is genuine and not expired. This only confirms "is this
+  // a real, logged-in user" — it does NOT check role or school. That check
+  // happens inside each portal's layout.tsx, where a real database query
+  // to Postgres is possible (middleware's Edge runtime cannot do this safely).
+  try {
+    const session = await verifyToken(sessionCookie);
+    if (new Date(session.expires) < new Date()) {
+      throw new Error("Session expired");
     }
+  } catch {
+    const redirectUrl = new URL("/sign-in", request.url);
+    redirectUrl.searchParams.set("next", path);
+    const response = NextResponse.redirect(redirectUrl);
+    response.cookies.delete("session");
+    return response;
   }
 
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-  runtime: 'nodejs'
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };

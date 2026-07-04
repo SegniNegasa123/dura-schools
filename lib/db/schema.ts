@@ -8,12 +8,37 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
+// ============================================================
+// DURA SCHOOLS — Schools table moved above `users` so that
+// `users.schoolId` can reference it directly below.
+// ============================================================
+
+export const schools = pgTable("schools", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  city: text("city"),
+  region: text("region"),
+  logoUrl: text("logo_url"),
+  coverUrl: text("cover_url"),
+  email: text("email"),
+  phone: text("phone"),
+  about: text("about"),
+  isActive: integer("is_active").default(1),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type School = typeof schools.$inferSelect;
+export type NewSchool = typeof schools.$inferInsert;
+
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: text("password_hash").notNull(),
-  role: varchar("role", { length: 20 }).notNull().default("member"),
+  role: varchar("role", { length: 20 }).notNull().default("member"), // team billing role — unrelated to school role, left as-is
+  schoolId: text("school_id").references(() => schools.id),
+  schoolRole: varchar("school_role", { length: 20 }), // 'super_admin' | 'school_admin' | 'teacher' | 'parent' | 'student'
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   deletedAt: timestamp("deleted_at"),
@@ -68,15 +93,23 @@ export const invitations = pgTable("invitations", {
   status: varchar("status", { length: 20 }).notNull().default("pending"),
 });
 
+export const schoolsRelations = relations(schools, ({ many }) => ({
+  users: many(users),
+}));
+
 export const teamsRelations = relations(teams, ({ many }) => ({
   teamMembers: many(teamMembers),
   activityLogs: many(activityLogs),
   invitations: many(invitations),
 }));
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   teamMembers: many(teamMembers),
   invitationsSent: many(invitations),
+  school: one(schools, {
+    fields: [users.schoolId],
+    references: [schools.id],
+  }),
 }));
 
 export const invitationsRelations = relations(invitations, ({ one }) => ({
@@ -140,25 +173,3 @@ export enum ActivityType {
   INVITE_TEAM_MEMBER = "INVITE_TEAM_MEMBER",
   ACCEPT_INVITATION = "ACCEPT_INVITATION",
 }
-
-// ============================================================
-// DURA SCHOOLS - Multi-Tenant Additions
-// ============================================================
-
-export const schools = pgTable("schools", {
-  id: text("id").primaryKey(), // Using text matching the UUID string format
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
-  city: text("city"),
-  region: text("region"),
-  logoUrl: text("logo_url"),
-  coverUrl: text("cover_url"),
-  email: text("email"),
-  phone: text("phone"),
-  about: text("about"),
-  isActive: integer("is_active").default(1), // Handle boolean flags or numbers safely
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export type School = typeof schools.$inferSelect;
-export type NewSchool = typeof schools.$inferInsert;
