@@ -1,63 +1,41 @@
-'use server';
+"use server";
 
-import { createClient } from '@/utils/supabase/server';
+import { db } from "@/lib/db/drizzle";
+import { applications } from "@/lib/db/schema";
+import { redirect } from "next/navigation";
 
-export interface ApplicationFormState {
-  success: boolean;
-  error?: string;
-}
-
-export async function submitApplication(
+export async function submitApplicationAction(
+  formData: FormData,
+  schoolId: string,
   schoolSlug: string,
-  prevState: ApplicationFormState,
-  formData: FormData
-): Promise<ApplicationFormState> {
-  const supabase = await createClient();
+) {
+  const studentName = formData.get("studentName") as string;
+  const gradeApplying = formData.get("gradeApplying") as string;
+  const parentName = formData.get("parentName") as string;
+  const parentPhone = formData.get("parentPhone") as string;
+  const parentEmail = formData.get("parentEmail") as string;
 
-  // Look up the school by slug to get its ID
-  const { data: school, error: schoolError } = await supabase
-    .from('schools')
-    .select('id')
-    .eq('slug', schoolSlug)
-    .single();
-
-  if (schoolError || !school) {
-    return { success: false, error: 'We could not find this school. Please try again.' };
+  // Structural boundary validations
+  if (!studentName || !gradeApplying || !parentName || !parentPhone) {
+    throw new Error("Missing mandatory application parameters.");
   }
 
-  const applicant_name = formData.get('applicant_name') as string;
-  const applicant_dob = formData.get('applicant_dob') as string;
-  const applicant_gender = formData.get('applicant_gender') as string;
-  const grade_applying_for = formData.get('grade_applying_for') as string;
-  const parent_name = formData.get('parent_name') as string;
-  const parent_phone = formData.get('parent_phone') as string;
-  const parent_email = formData.get('parent_email') as string;
-  const previous_school = formData.get('previous_school') as string;
-  const address = formData.get('address') as string;
-  const notes = formData.get('notes') as string;
-
-  if (!applicant_name || !grade_applying_for || !parent_name || !parent_phone) {
-    return { success: false, error: 'Please complete all required fields before submitting.' };
+  try {
+    // Ingest payload parameters straight into the schema database structure
+    await db.insert(applications).values({
+      schoolId: schoolId,
+      studentName,
+      gradeApplying,
+      parentName,
+      parentPhone,
+      parentEmail: parentEmail || null,
+      status: "pending",
+    });
+  } catch (error) {
+    console.error("Application insertion pipeline failed:", error);
+    throw new Error("Database transaction rejected.");
   }
 
-  const { error: insertError } = await supabase.from('applications').insert({
-    school_id: school.id,
-    applicant_name,
-    applicant_dob: applicant_dob || null,
-    applicant_gender: applicant_gender || null,
-    grade_applying_for,
-    parent_name,
-    parent_phone,
-    parent_email: parent_email || null,
-    previous_school: previous_school || null,
-    address: address || null,
-    notes: notes || null,
-    status: 'pending',
-  });
-
-  if (insertError) {
-    return { success: false, error: 'Something went wrong submitting your application. Please try again.' };
-  }
-
-  return { success: true };
+  // Route to structural success confirmation state layout
+  redirect(`/schools/${schoolSlug}`);
 }
