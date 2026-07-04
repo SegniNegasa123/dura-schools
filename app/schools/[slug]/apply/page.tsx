@@ -1,92 +1,97 @@
-import { db } from "@/lib/db/drizzle";
-import { schools } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Landmark } from "lucide-react";
-import ApplicationWizardForm from "./ApplicationWizardForm";
-
-export const dynamic = "force-dynamic";
+import { createClient } from "@/utils/supabase/server";
+import { ArrowLeft } from "lucide-react";
+import ApplicationForm from "./application-form";
 
 const SERIF = 'Georgia, "Times New Roman", "Book Antiqua", serif';
 const SANS =
   'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
 
-// Next.js 15 requires params to be handled as a Promise asynchronously
-interface PageProps {
+interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export default async function ApplyPage({ params }: PageProps) {
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
+  const supabase = await createClient();
+  const { data: school } = await supabase
+    .from("schools")
+    .select("name")
+    .eq("slug", slug)
+    .single();
+  return { title: school ? `Apply | ${school.name}` : "Apply | Dura Schools" };
+}
 
-  const targetSchool = await db
-    .select()
-    .from(schools)
-    .where(eq(schools.slug, slug))
-    .limit(1);
+export default async function ApplyPage({ params }: Props) {
+  const { slug } = await params;
+  const supabase = await createClient();
 
-  if (!targetSchool || targetSchool.length === 0) {
-    notFound();
-  }
+  const { data: school } = await supabase
+    .from("schools")
+    .select("id, name, slug")
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .single();
 
-  const school = targetSchool[0];
+  if (!school) notFound();
 
   return (
-    <div className="bg-[#FBF9F6] min-h-screen text-[#1A1A1A] antialiased">
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-[#EBE6DF] backdrop-blur-md bg-white/90">
-        <div className="max-w-3xl mx-auto px-6 flex items-center justify-between h-[60px]">
-          <Link
-            href={`/schools/${school.slug}`}
-            className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest font-semibold text-[#716860] hover:text-[#A51C30] transition-colors"
-            style={{ fontFamily: SANS }}
-          >
-            <ArrowLeft className="h-3.5 w-3.5 stroke-[2]" /> Institution Profile
-          </Link>
-          <div className="flex items-baseline gap-0.5 select-none">
+    <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-screen">
+      {/* ── Header ─────────────────────────────────────── */}
+      <header className="bg-white border-b border-[#E2DDD7]">
+        <div className="max-w-3xl mx-auto px-6 flex items-center justify-between h-[56px]">
+          <Link href="/" className="flex items-baseline gap-0.5 select-none">
             <span
               style={{ fontFamily: SERIF }}
-              className="font-bold text-[18px] text-[#A51C30] tracking-tight"
+              className="font-bold text-[17px] text-[#A51C30] tracking-tight"
             >
               Dura
             </span>
             <span
               style={{ fontFamily: SERIF }}
-              className="font-normal text-[18px] text-[#1A1A1A]"
+              className="font-normal text-[17px] text-[#1A1A1A]"
             >
               Schools
             </span>
-          </div>
+          </Link>
+          <Link
+            href={`/schools/${school.slug}`}
+            className="flex items-center gap-2 text-[13px] text-[#716860] hover:text-[#1A1A1A] transition-colors"
+            style={{ fontFamily: SANS }}
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Back to school
+          </Link>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 pt-[130px] pb-32">
-        <div className="border-b border-[#EBE6DF] pb-8 mb-10">
-          <div
-            className="flex items-center gap-2 text-[#716860] text-[11px] font-bold tracking-[0.2em] uppercase mb-2"
-            style={{ fontFamily: SANS }}
-          >
-            <Landmark className="h-3.5 w-3.5 text-[#A51C30]" />
-            <span>Admissions Gateway</span>
-          </div>
-          <h1
-            style={{ fontFamily: SERIF }}
-            className="text-[36px] font-bold tracking-tight text-[#1A1A1A] mb-3"
-          >
-            Application for Admission
-          </h1>
-          <p
-            style={{ fontFamily: SANS }}
-            className="text-[14px] text-[#716860] max-w-xl leading-relaxed"
-          >
-            Please complete the four operational stages below. Data sent via
-            this channel maps instantly into the processing registry files of{" "}
-            <span className="font-semibold text-[#1A1A1A]">{school.name}</span>.
-          </p>
-        </div>
+      <div className="max-w-3xl mx-auto px-6 py-16 md:py-20">
+        <p
+          className="text-[#A51C30] text-[11px] font-semibold tracking-[0.2em] uppercase mb-4"
+          style={{ fontFamily: SANS }}
+        >
+          Admissions application
+        </p>
+        <h1
+          className="text-[#1A1A1A] font-bold mb-3"
+          style={{
+            fontFamily: SERIF,
+            fontSize: "clamp(28px, 4vw, 40px)",
+            letterSpacing: "-0.015em",
+          }}
+        >
+          Apply to {school.name}
+        </h1>
+        <p
+          className="text-[#716860] text-[14px] leading-relaxed mb-12"
+          style={{ fontFamily: SANS, maxWidth: "480px" }}
+        >
+          This application takes about five minutes. A member of the admissions
+          team will review it and contact the parent or guardian listed below.
+        </p>
 
-        <ApplicationWizardForm schoolId={school.id} schoolSlug={school.slug} />
-      </main>
+        <ApplicationForm schoolSlug={school.slug} schoolName={school.name} />
+      </div>
     </div>
   );
 }

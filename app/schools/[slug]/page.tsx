@@ -1,262 +1,258 @@
-import { db } from "@/lib/db/drizzle";
-import { schools } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 import {
   MapPin,
   Mail,
   Phone,
-  ShieldCheck,
+  ArrowRight,
   ArrowLeft,
-  Calendar,
-  HelpCircle,
+  GraduationCap,
+  BedDouble,
+  Users,
 } from "lucide-react";
-
-export const dynamic = "force-dynamic";
 
 const SERIF = 'Georgia, "Times New Roman", "Book Antiqua", serif';
 const SANS =
   'system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif';
 
-interface PageProps {
+interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export default async function IndividualSchoolPage({ params }: PageProps) {
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
+  const supabase = await createClient();
+  const { data: school } = await supabase
+    .from("schools")
+    .select("name, about")
+    .eq("slug", slug)
+    .single();
 
-  // Query school details from the multi-tenant database
-  const targetSchool = await db
-    .select()
-    .from(schools)
-    .where(eq(schools.slug, slug))
-    .limit(1);
+  if (!school) return { title: "School Not Found | Dura Schools" };
+  return {
+    title: `${school.name} | Dura Schools`,
+    description:
+      school.about ??
+      `Learn more about ${school.name} and apply for admission.`,
+  };
+}
 
-  if (!targetSchool || targetSchool.length === 0) {
-    notFound();
-  }
+export default async function SchoolPage({ params }: Props) {
+  const { slug } = await params;
+  const supabase = await createClient();
 
-  const school = targetSchool[0];
+  const { data: school } = await supabase
+    .from("schools")
+    .select("*")
+    .eq("slug", slug)
+    .eq("is_active", true)
+    .single();
+
+  if (!school) notFound();
 
   return (
-    <div className="bg-[#FBF9F6] min-h-screen text-[#1A1A1A] antialiased">
-      {/* ── Institutional Header Bar ───────────────────────────────── */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-[#EBE6DF] backdrop-blur-md bg-white/90">
-        <div className="max-w-6xl mx-auto px-8 flex items-center justify-between h-[60px]">
-          <Link
-            href="/schools"
-            className="inline-flex items-center gap-2 text-[12px] uppercase tracking-widest font-semibold text-[#716860] hover:text-[#A51C30] transition-colors"
-            style={{ fontFamily: SANS }}
-          >
-            <ArrowLeft className="h-3.5 w-3.5 stroke-[2]" /> Registry Directory
-          </Link>
-          <div className="flex items-baseline gap-0.5 select-none">
+    <div className="bg-white text-[#1A1A1A] min-h-screen">
+      {/* ── Header ─────────────────────────────────────── */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-[#E2DDD7]">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-[56px]">
+          <Link href="/" className="flex items-baseline gap-0.5 select-none">
             <span
               style={{ fontFamily: SERIF }}
-              className="font-bold text-[18px] text-[#A51C30] tracking-tight"
+              className="font-bold text-[17px] text-[#A51C30] tracking-tight"
             >
               Dura
             </span>
             <span
               style={{ fontFamily: SERIF }}
-              className="font-normal text-[18px] text-[#1A1A1A]"
+              className="font-normal text-[17px] text-[#1A1A1A]"
             >
               Schools
             </span>
+          </Link>
+          <nav className="hidden md:flex items-center gap-8">
+            <Link
+              href="/schools"
+              className="text-[13px] text-[#716860] hover:text-[#1A1A1A] transition-colors"
+              style={{ fontFamily: SANS }}
+            >
+              Find a School
+            </Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/sign-in"
+              className="text-[13px] text-[#716860] hover:text-[#1A1A1A] transition-colors"
+              style={{ fontFamily: SANS }}
+            >
+              Sign in
+            </Link>
+            <Link
+              href={`/schools/${school.slug}/apply`}
+              className="text-[13px] font-semibold bg-[#A51C30] hover:bg-[#8B1627] text-white px-4 py-2 transition-colors"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
+            >
+              Apply now
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* ── Master Profile Layout ──────────────────────────────────── */}
-      <main className="max-w-6xl mx-auto px-8 pt-[140px] pb-32">
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
-          {/* ── Left Column: Structural Academic Profile (8 Columns) ── */}
-          <div className="lg:col-span-8 space-y-12">
+      {/* ── Breadcrumb + Hero ──────────────────────────── */}
+      <section className="bg-[#A51C30] pt-[56px]">
+        <div className="max-w-6xl mx-auto px-6 py-20">
+          <Link
+            href="/schools"
+            className="inline-flex items-center gap-2 text-white/60 hover:text-white text-[12px] mb-8 transition-colors"
+            style={{ fontFamily: SANS }}
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> All schools
+          </Link>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8">
             <div>
-              {/* Regional Matrix Location Badge */}
-              <div
-                className="flex items-center gap-2 text-[#A51C30] text-[11px] font-bold tracking-[0.25em] uppercase mb-4"
-                style={{ fontFamily: SANS }}
-              >
-                <MapPin className="h-3.5 w-3.5 text-[#A51C30] stroke-[2]" />
-                <span>
-                  {school.city
-                    ? `${school.city} • ${school.region || "Ethiopia Network"}`
-                    : "Ethiopia Strategic Node"}
-                </span>
-              </div>
-
-              {/* Elite Large Title */}
+              {(school.city || school.region) && (
+                <p
+                  className="flex items-center gap-1.5 text-white/60 text-[12px] font-semibold tracking-wide uppercase mb-5"
+                  style={{ fontFamily: SANS }}
+                >
+                  <MapPin className="h-3.5 w-3.5" />
+                  {[school.city, school.region].filter(Boolean).join(", ")}
+                </p>
+              )}
               <h1
+                className="text-white font-bold"
                 style={{
                   fontFamily: SERIF,
-                  fontSize: "clamp(34px, 5vw, 52px)",
-                  lineHeight: 1.05,
+                  fontSize: "clamp(32px, 5vw, 56px)",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.02em",
+                  maxWidth: "620px",
                 }}
-                className="font-bold text-[#1A1A1A] tracking-tight mb-8 max-w-3xl"
               >
                 {school.name}
               </h1>
-
-              {/* Status Verification Bar */}
-              <div className="inline-flex items-center gap-2 bg-[#F0ECE6] border border-[#E2DDD7] px-4 py-2 rounded-[2px] mb-4">
-                <ShieldCheck className="h-4 w-4 text-[#A51C30]" />
-                <span
-                  className="text-[12px] font-medium text-[#3A3530]"
-                  style={{ fontFamily: SANS }}
-                >
-                  Verified Active Tenant • Dura Core Framework v4.1
-                </span>
-              </div>
             </div>
+            <Link
+              href={`/schools/${school.slug}/apply`}
+              className="inline-flex items-center justify-center gap-2 bg-white text-[#A51C30] font-semibold text-[13px] px-6 py-3.5 hover:bg-[#F8F6F2] transition-colors flex-shrink-0"
+              style={{ fontFamily: SANS, borderRadius: "2px" }}
+            >
+              Apply for admission <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
-            {/* Core Narrative Profile */}
-            <div className="border-t border-[#EBE6DF] pt-10">
-              <h2
-                className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#716860] mb-6"
-                style={{ fontFamily: SANS }}
-              >
-                Institutional Abstract & Charter
-              </h2>
-              <p
-                style={{ fontFamily: SERIF }}
-                className="text-[#262421] text-[18px] leading-relaxed whitespace-pre-wrap italic pl-6 border-l-2 border-[#A51C30]/40"
-              >
-                {school.about ||
-                  "This legacy educational establishment is currently operating within the Dura Schools centralized digital management network. Full dynamic structural parameters are active and managed via the administrative dashboard configuration modules."}
-              </p>
-            </div>
+      {/* ── About ──────────────────────────────────────── */}
+      <section className="bg-white py-20 md:py-28">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-14">
+          <div className="md:col-span-8">
+            <p
+              className="text-[#A51C30] text-[11px] font-semibold tracking-[0.2em] uppercase mb-5"
+              style={{ fontFamily: SANS }}
+            >
+              About the school
+            </p>
+            <p
+              className="text-[#3D3530] text-[16px] leading-relaxed"
+              style={{ fontFamily: SANS }}
+            >
+              {school.about ??
+                `${school.name} is a boarding and secondary institution managed on the Dura Schools platform. Admissions, academics, and boarding operations are administered digitally, giving families a transparent view of the admissions process from application to enrollment.`}
+            </p>
 
-            {/* Operational Framework Features List */}
-            <div className="border-t border-[#EBE6DF] pt-10">
-              <h2
-                className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#716860] mb-6"
-                style={{ fontFamily: SANS }}
-              >
-                Active Governance Modules
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: "Centralized Admissions",
-                    desc: "Cryptographically bound public registration pipelines handling direct guardian processing.",
-                  },
-                  {
-                    title: "Dormitory Real-Time Matrix",
-                    desc: "Automated block occupancy calculation systems monitoring physical housing allocations.",
-                  },
-                  {
-                    title: "Parent Portal Integration",
-                    desc: "Asynchronous secure transmission of biometric attendance and daily grading data.",
-                  },
-                  {
-                    title: "Direct Cryptographic Auditing",
-                    desc: "End-to-end transparent visibility of system analytics directly by institutional directors.",
-                  },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="border border-[#EBE6DF] bg-white p-6 rounded-[2px]"
+            <div className="grid sm:grid-cols-3 gap-px bg-[#E2DDD7] mt-12">
+              {[
+                {
+                  icon: GraduationCap,
+                  label: "Digital admissions",
+                  desc: "Apply online, track your status, hear back faster.",
+                },
+                {
+                  icon: BedDouble,
+                  label: "Boarding facilities",
+                  desc: "Managed dormitory assignments and daily oversight.",
+                },
+                {
+                  icon: Users,
+                  label: "Parent visibility",
+                  desc: "Attendance and grades available to guardians remotely.",
+                },
+              ].map(({ icon: Icon, label, desc }) => (
+                <div key={label} className="bg-[#F8F6F2] p-6">
+                  <Icon
+                    className="h-[17px] w-[17px] text-[#A51C30] mb-4"
+                    strokeWidth={1.5}
+                  />
+                  <p
+                    className="text-[#1A1A1A] font-semibold text-[13px] mb-2"
+                    style={{ fontFamily: SANS }}
                   >
-                    <h3
-                      className="font-bold text-[15px] mb-2"
-                      style={{ fontFamily: SERIF }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className="text-[#716860] text-[13px] leading-relaxed"
-                      style={{ fontFamily: SANS }}
-                    >
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                    {label}
+                  </p>
+                  <p
+                    className="text-[#716860] text-[12px] leading-relaxed"
+                    style={{ fontFamily: SANS }}
+                  >
+                    {desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* ── Right Column: The Elite Sidebar Panel (4 Columns) ── */}
-          <div className="lg:col-span-4 lg:sticky lg:top-[100px]">
-            <div className="bg-white border-2 border-[#1A1A1A] p-8 rounded-[2px] space-y-6 shadow-[4px_4px_0px_0px_rgba(165,28,48,0.1)]">
-              <div>
-                <p
-                  className="text-[#A51C30] text-[10px] font-bold tracking-[0.2em] uppercase mb-1"
-                  style={{ fontFamily: SANS }}
-                >
-                  Admissions Status
-                </p>
-                <h3
-                  className="font-bold text-[24px] tracking-tight text-[#1A1A1A]"
-                  style={{ fontFamily: SERIF }}
-                >
-                  Intake Open
-                </h3>
-                <p
-                  className="text-[13px] text-[#716860] mt-1"
-                  style={{ fontFamily: SANS }}
-                >
-                  Academic Term: 2026 Entry Cycles
-                </p>
-              </div>
-
-              {/* The Master Action Trigger Button */}
-              <Link
-                href={`/schools/${school.slug}/apply`}
-                className="w-full text-center block bg-[#A51C30] hover:bg-[#1A1A1A] text-white text-[13px] font-bold tracking-widest uppercase py-4 transition-colors rounded-[2px]"
+          {/* Sidebar - contact card */}
+          <div className="md:col-span-4">
+            <div
+              className="bg-[#F8F6F2] p-7 sticky top-24"
+              style={{ borderRadius: "2px" }}
+            >
+              <p
+                className="text-[#A51C30] text-[11px] font-semibold tracking-[0.2em] uppercase mb-6"
                 style={{ fontFamily: SANS }}
               >
-                Initiate Online Application
-              </Link>
-
-              {/* Dynamic Metadata Registry Stack */}
-              <div className="border-t border-[#EBE6DF] pt-6 space-y-4">
-                <h4
-                  className="text-[10px] font-bold text-[#716860] tracking-[0.15em] uppercase mb-2"
-                  style={{ fontFamily: SANS }}
-                >
-                  Verified School Registrars
-                </h4>
-
+                Contact
+              </p>
+              <div className="space-y-4 mb-8">
                 {school.email && (
-                  <div className="flex items-center gap-3 text-[13px] text-[#262421]">
-                    <Mail className="h-4 w-4 text-[#A51C30] shrink-0 stroke-[1.5]" />
-                    <span className="truncate underline underline-offset-4 decoration-[#EBE6DF]">
-                      {school.email}
-                    </span>
-                  </div>
+                  <a
+                    href={`mailto:${school.email}`}
+                    className="flex items-center gap-3 text-[#3D3530] hover:text-[#A51C30] text-[13px] transition-colors"
+                    style={{ fontFamily: SANS }}
+                  >
+                    <Mail className="h-4 w-4 flex-shrink-0" /> {school.email}
+                  </a>
                 )}
-
                 {school.phone && (
-                  <div className="flex items-center gap-3 text-[13px] text-[#262421]">
-                    <Phone className="h-4 w-4 text-[#A51C30] shrink-0 stroke-[1.5]" />
-                    <span className="tabular-nums">{school.phone}</span>
-                  </div>
+                  <a
+                    href={`tel:${school.phone}`}
+                    className="flex items-center gap-3 text-[#3D3530] hover:text-[#A51C30] text-[13px] transition-colors"
+                    style={{ fontFamily: SANS }}
+                  >
+                    <Phone className="h-4 w-4 flex-shrink-0" /> {school.phone}
+                  </a>
                 )}
-
-                <div className="flex items-center gap-3 text-[13px] text-[#262421]">
-                  <Calendar className="h-4 w-4 text-[#A51C30] shrink-0 stroke-[1.5]" />
-                  <span style={{ fontFamily: SANS }}>Sync Status: Online</span>
-                </div>
+                {(school.city || school.region) && (
+                  <p
+                    className="flex items-center gap-3 text-[#3D3530] text-[13px]"
+                    style={{ fontFamily: SANS }}
+                  >
+                    <MapPin className="h-4 w-4 flex-shrink-0" />{" "}
+                    {[school.city, school.region].filter(Boolean).join(", ")}
+                  </p>
+                )}
               </div>
-
-              {/* Fine Print Compliance Anchor */}
-              <div className="bg-[#FBF9F6] border border-[#EBE6DF] p-4 flex items-start gap-2.5">
-                <HelpCircle className="h-4 w-4 text-[#716860] shrink-0 mt-0.5" />
-                <p
-                  className="text-[11px] text-[#716860] leading-normal"
-                  style={{ fontFamily: SANS }}
-                >
-                  Submissions processed through this gateway route completely
-                  eliminate paper dependencies and report straight to internal
-                  management ledgers.
-                </p>
-              </div>
+              <Link
+                href={`/schools/${school.slug}/apply`}
+                className="block text-center bg-[#A51C30] hover:bg-[#8B1627] text-white text-[13px] font-semibold py-3 transition-colors"
+                style={{ fontFamily: SANS, borderRadius: "2px" }}
+              >
+                Start an application
+              </Link>
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
